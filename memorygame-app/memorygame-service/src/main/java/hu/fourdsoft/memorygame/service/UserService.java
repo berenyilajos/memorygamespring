@@ -7,6 +7,7 @@ import hu.fourdsoft.memorygame.dao.UserRepository;
 import hu.fourdsoft.memorygame.exception.UserAllreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.xml.bind.DatatypeConverter;
 import java.security.MessageDigest;
@@ -16,15 +17,31 @@ import java.util.Optional;
 
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
 
+	@Transactional
     public List<UserDTO> findAll() {
         return DtoHelper.usersToDTO(userRepository.findAll());
     }
 
+	@Transactional
 	public UserDTO getUserByUsernameAndPassword(String username, String password) {
     	return DtoHelper.toDTOWithoutResults(userRepository.findOneByUsernameAndPassword(username, getMD5(password)));
+	}
+
+	@Transactional
+	public void saveUser(String username, String password) throws UserAllreadyExistException {
+    	Optional<User> existsUuser = userRepository.findByUsername(username);
+    	if (existsUuser.isPresent()) {
+    		throw new UserAllreadyExistException();
+		}
+		User user = new User();
+		user.setUsername(username);
+		user.setEmail(username + "@example.com");
+		user.setPassword(getMD5(password));
+		userRepository.saveAndFlush(user);
 	}
 
 	private static String getMD5(String rawPass) {
@@ -46,15 +63,4 @@ public class UserService {
 		return passEncrypted;
 	}
 
-	public void saveUser(String username, String password) throws UserAllreadyExistException {
-    	Optional<User> existsUuser = userRepository.findByUsername(username);
-    	if (existsUuser.isPresent()) {
-    		throw new UserAllreadyExistException("A felhasználó már létezik, username: " + username);
-		}
-		User user = new User();
-		user.setUsername(username);
-		user.setEmail(username + "@example.com");
-		user.setPassword(getMD5(password));
-		userRepository.saveAndFlush(user);
-	}
 }

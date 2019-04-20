@@ -8,8 +8,8 @@ Adatbázis:
 Oracle 10 XE (de 11-es adatbázis is megteszi)
 
 A projektben levő com.oracle.ojdbc6 dependency-ről:
-Ez local maven repóból való, vagyis a projektben található (a memorygamespring mappában).
-A memorygame (webapp) projektben van, a JAR file generálásához is szükséges.
+Ez local maven repóból való, vagyis a fő projektben található (a memorygamespring mappában).
+A memorygame-dao projekt pom.xml-ben van hozzáadva a projecthez.
 
 Először hozzuk létre az MG user/schema-t (jelszó 'mg'), a createMGuser.sql segítségével.
 Hozzuk létre a táblákat a usersResultCreate.sql futtatásával.
