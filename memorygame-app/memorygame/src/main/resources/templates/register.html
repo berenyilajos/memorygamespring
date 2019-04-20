@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>REGISZTRÁCIÓ</title>
+<link rel="stylesheet" th:href="@{/css/style.css}" />"/>
+</head>
+<body>
+<div id="body">
+	<div id="nav">
+		<ul>
+			<li><a class="active" href="#">Register</a></li>
+			<li class="right" ><a th:href="@{/game/login}">Login</a></li>
+		</ul>
+	</div>
+	<h3>REGISZTRÁCIÓ</h3>
+	<form th:action="@{/game/register}" METHOD="POST">
+		Username <input type="text" name="username" required /><br>
+		Password <input type="password" name="password" required /><br>
+		Password2 <input type="password" name="password2" required /><br>
+		<input type="submit" value="Register" /><br>
+		<span class="error"  th:text="${msg} ?: ''"></span>
+	</form>
+</div>
+</body>
+</html>

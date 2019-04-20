@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Memory Game</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+        window.onload = function () {
+            var kepszam = 27;
+            var kepek = kepekFeltolt();
+            var hatter = "/hatter1.jpg";
+            var darab = 4;
+            var elozokartya = null;
+            var klikk = 0;
+            var hattalVan = darab * darab;
+            var datum;
+            var resources = '/memorygame/images';
+            resources = resources.split(";")[0];
+            //************************************************************
+            // HTMLCollection.prototype.forEach = Array.prototype.forEach;
+            //************************************************************
+
+            function getSzam(szam) {
+                if (szam < 0) {
+                    return "-" + getSzam(-szam);
+                }
+                if (szam < 10) {
+                    return "0" + szam;
+                }
+                else {
+                    return "" + szam;
+                }
+            }
+
+            function kepekFeltolt() {
+                var kepek = [];
+                for (var i = 0; i < kepszam; i++) {
+                    kepek[i] = getSzam(i) + ".jpg";
+                }
+                return kepek;
+            }
+
+            function getPictures(db) {
+                if (db > kepszam) {
+                    return null;
+                }
+                var pictures = [];
+                for (var i = 0; i < db; i++) {
+                    var j, p;
+                    do {
+                        p = kepek[Math.floor(Math.random() * kepszam)];
+                        j = 0;
+                        while(pictures[j] !== p && ++j < i);
+                    }
+                    while (j < i);
+                    pictures[i] = p;
+                }
+                return pictures;
+            }
+
+            function getKepek(db) {
+                var pictures = getPictures(db / 2);
+                var kepek2 = [];
+                for (var i = 0; i < db / 2; i++) {
+                    var index;
+                    for (var j = 0; j < 2; j++) {
+                        do {
+                            index = Math.floor(Math.random() * db);
+                        }
+                        while (kepek2[index] !== undefined);
+                        kepek2[index] = pictures[i];
+                    }
+                }
+                return kepek2;
+            }
+
+            function initializeBackgroundAndBeginGame(db) {
+                var content = "";
+                var m = 24 / db;
+                var wh = (db * 80 + ((6 - db) * 20)) / db - m;
+                m /= 2;
+                var cardsWh = "" + (db * 80 + ((6 - db) * 20)) + "px";
+                kepek2 = getKepek(db * db);
+                for (var i = 0; i < (db * db); i++) {
+                    var dataImage = "/" + kepek2[i];
+                    var img = '<img src="' + resources + hatter + '" width="100%" height="100%" class="cardImage" data-image="' + dataImage + '" >';
+                    content += '<div class="card" style="width:' + wh + 'px; height:' + wh + 'px; margin:' + m + 'px">' + img + '</div>';
+                }
+                document.getElementById("cards").style.width = cardsWh;
+                document.getElementById("cards").style.height = cardsWh;
+                document.getElementById("cards").innerHTML = content;
+                addClickToCards();
+            }
+
+            function initializeBackground(db) {
+                var content = "";
+                var m = 24 / db;
+                var wh = (db * 80 + ((6 - db) * 20)) / db - m;
+                m /= 2;
+                var cardsWh = "" + (db * 80 + ((6 - db) * 20)) + "px";
+                var img = '<img src="' + resources + hatter + '" width="100%" height="100%">';
+                for (var i = 0; i < (db * db); i++) {
+                    content += '<div class="card" style="width:' + wh + 'px; height:' + wh + 'px; margin:' + m + 'px">' + img + '</div>';
+                }
+                document.getElementById("cards").style.width = cardsWh;
+                document.getElementById("cards").style.height = cardsWh;
+                document.getElementById("cards").innerHTML = content;
+            }
+
+            document.getElementById("more").onclick = function () {
+                if (darab === 6 || megszakit()) {
+                    return;
+                }
+                darab += 2;
+                initializeBackground(darab);
+                reset();
+            };
+            document.getElementById("less").onclick = function () {
+                if (darab === 2 || megszakit()) {
+                    return;
+                }
+                darab -= 2;
+                initializeBackground(darab);
+                reset();
+            };
+            document.getElementById("begin").onclick = function () {
+                if (megszakit()) {
+                    return;
+                }
+                initializeBackgroundAndBeginGame(darab);
+                reset();
+                alert("Játék indul!");
+                datum = new Date().getTime();
+            };
+            function megszakit() {
+                return (hattalVan !== darab * darab) && !confirm("Biztos félbe akarod hagyni a játékot?");
+            }
+
+//            function addClickToCards() {
+//                //***********************************************************************
+//                // document.getElementsByClassName("cardImage").forEach(function (item) {
+//                // **********************************************************************
+//                [].forEach.call(document.getElementsByClassName("cardImage"), function (item) {
+//                    item.onclick = function () {
+//                        if ((this.getAttribute("src") !== hatter) || (klikk === 1 && this === elozokartya)) {
+//                            return;
+//                        }
+//                        felFordit(this);
+//                        klikk = (klikk + 1) & 1;
+//                        if (klikk === 1) {
+//                            elozokartya = this;
+//                        }
+//                        else {
+//                            if (this.getAttribute("data-image") === elozokartya.getAttribute("data-image")) {
+//                                hattalVan -= 2;
+//                                if (hattalVan === 0) {
+//                                    kesz();
+//                                }
+//                            }
+//                            else {
+//                                setTimeout(leFordit, 1000, this);
+//                                setTimeout(leFordit, 1000, elozokartya);
+//                            }
+//                            elozokartya = null;
+//                        }
+//                    };
+//                });
+//            }
+
+            function addClickToCards() {
+                var cardImages = document.getElementsByClassName("cardImage");
+                for (var i = 0; i < cardImages.length; i++) {
+                    cardImages[i].onclick = function () {
+                        if ((this.getAttribute("src") !== resources + hatter) || (klikk === 1 && this === elozokartya))
+                            return;
+                        felFordit(this);
+                        klikk = (klikk + 1) & 1;
+                        if (klikk === 1) {
+                            elozokartya = this;
+                        } else {
+                            if (this.getAttribute("data-image") === elozokartya.getAttribute("data-image")) {
+                                hattalVan -= 2;
+                                if (hattalVan === 0) {
+									kesz();
+                                }
+                            } else {
+                                setTimeout(leFordit, 1000, this);
+                                setTimeout(leFordit, 1000, elozokartya);
+                            }
+                            elozokartya = null;
+                        }
+                    };
+                }
+            }
+
+            function felFordit(kartya) {
+                kartya.setAttribute("src", resources + kartya.getAttribute("data-image"));
+            }
+
+            function leFordit(kartya) {
+                kartya.setAttribute("src", resources + hatter);
+            }
+
+            function reset() {
+                elozokartya = null;
+                klikk = 0;
+                hattalVan = darab * darab;
+            }
+
+            function kesz() {
+                var seconds = Math.floor((new Date().getTime() - datum) / 1000);
+                // alert("Kész!\nEredmény: " + seconds + " másodperc.");
+                reset();
+                if (darab === 6) {
+                	ment(seconds);
+                } else {
+                	alert("Kész!\nEredmény: " + seconds + " másodperc.");
+                }
+            }
+
+            function ment(seconds) {
+            	var http = new XMLHttpRequest();
+            	var url = "/memorygame/game/result/save";
+            	var obj = new Object();
+            	obj.seconds = seconds;
+            	obj.userId = /*[[${session.user.id}]]*/ '';
+            	var params = JSON.stringify(obj);
+            	http.open("POST", url, true);
+
+            	//Send the proper header information along with the request
+            	http.setRequestHeader("Content-type", "application/json");
+
+            	http.onreadystatechange = function() {//Call a function when the state changes.
+            	    if(http.readyState == 4 && 200 <= http.status && http.status < 400) {
+            	    	var obj =  JSON.parse(http.responseText);
+            	    	var mentes = "Sikerült elmenteni az adatbázisba.";
+            	    	if (obj.success.toLowerCase() !== "success") {
+                	    	mentes = "Nem sikerült elmenteni az adatbázisba.";
+                	    }
+            	    	alert("Kész!\nEredmény: " + seconds + " másodperc.\n" + mentes);
+            	    	console.log(http.responseText);
+            	    } else if (http.readyState == 4 && http.status <= 400) {
+            	    	alert("Kész!\nEredmény: " + seconds + " másodperc.\nNem sikerült elmenteni az adatbázisba.");
+            	    	console.log(params);
+            	    	console.log(http.responseText);
+                	} else if (http.readyState == 4) {
+            	    	alert("Kész!\nEredmény: " + seconds + " másodperc.");
+                	}
+            	}
+            	http.send(params);
+            }
+
+            initializeBackground(darab);
+        };
+    /*]]>*/
+	</script>
+</head>
+<body>
+<div id="body">
+	<div id="nav">
+		<ul>
+			<li><a class="active" th:href="@{/game}">Game</a></li>
+			<li><a th:href="@{/game/result}">Results</a></li>
+			<li><a th:href="@{'/game/result/' + ${session.user.id}}">My results</a></li>
+			<li class="right" ><a th:href="@{/game/logout}">Logout</a></li>
+		</ul>
+	</div>
+	<div id="main">
+	    <h3>Memory Game</h3>
+	    <div id="up">
+	        <div id="cards">
+	
+	        </div>
+	    </div>
+	    <div id="down">
+	        <div id="buttons">
+	            <input type="button" id="more" value="TÖBB KÁRTYA">
+	            <input type="button" id="less" value="KEVESEBB KÁRTYA">
+	            <input type="button" id="begin" value="JÁTÉK">
+	        </div>
+	    </div>
+	</div>
+</div>
+</body>
+</html>

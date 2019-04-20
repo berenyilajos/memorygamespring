@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Login</title>
+<link rel="stylesheet" th:href="@{/css/style.css}" />
+<script type="text/javascript">
+	window.onload = function() {
+		document.getElementById("username").focus();
+	};
+</script>
+</head>
+<body>
+	<div id="body">
+		<div id="nav">
+			<ul>
+				<li><a class="active" href="#">Login</a></li>
+			<li class="right" ><a th:href="@{/game/register}">Register</a></li>
+			</ul>
+		</div>
+		<h3>Login</h3>
+        <form th:action="@{/game/login}" METHOD="POST">
+            Username <input type="text" name="username" id="username" required /><br>
+            Password <input type="password" name="password" required /><br>
+            <input type="submit" value="Login" /><br>
+            <span class="error" th:text="${msg} ?: ''"></span>
+        </form>
+	</div>
+</body>
+</html>

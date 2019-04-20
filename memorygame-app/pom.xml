@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>memorygame-spring</artifactId>
+        <groupId>hu.fourdsoft</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>memorygame-app</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>memorygame-dao</module>
+        <module>memorygame-service</module>
+        <module>memorygame</module>
+    </modules>
+
+
+</project>

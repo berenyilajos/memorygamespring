@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://common.xsdpojo.fourdsoft.hu/common" targetNamespace="http://common.xsdpojo.fourdsoft.hu/common" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation>
+		Common types
+		</xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="SuccessType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="success">
+				<xs:annotation>
+					<xs:documentation>Success</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="error">
+				<xs:annotation>
+					<xs:documentation>Error</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IntType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="10" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="DataType">
+		<xs:sequence minOccurs="0">
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DataObject">
+		<xs:sequence minOccurs="0">
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

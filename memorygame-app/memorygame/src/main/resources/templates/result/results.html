@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Results</title>
+<link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<div id="body">
+	<div id="nav">
+		<ul>
+			<li><a th:href="@{/game}">Game</a></li>
+			<li><a class="active" th:href="@{/game/result}">Results</a></li>
+			<li><a th:href="@{'/game/result/' + ${session.user.id}}">My results</a></li>
+			<li class="right" ><a th:href="@{/game/logout}">Logout</a></li>
+		</ul>
+	</div>
+	<h3>Results (only 6x6)</h3>
+	<table th:if="${list != null}">
+		<tr><th>ID</th><th>Date</th><th>Seconds</th><th>Username</th></tr>
+		<th:block th:each="r : ${list}">
+			<tr><th th:text="${r.id}"></th>
+				<th th:text="${#dates.format(r.resultDate, 'yyyy-MM-dd')}"></th>
+				<th th:text="${r.seconds}"></th>
+				<th th:text="${r.user.username}"></th></tr>
+		</th:block>
+	</table>
+</div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+div {
+    background: none;
+}
+#body {
+	width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #CCD;
+}
+#main {
+    width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #CCD;
+    background-image: url("../images/zoo3.png");
+    background-size: 100% 100%;
+}
+h3 {
+    text-align: center;
+    color: blueviolet;
+}
+#up {
+    width: 100%;
+    height: 510px;
+}
+#down {
+    width: 100%;
+    height: 60px;
+}
+#buttons {
+    width: 400px;
+    margin: auto;
+}
+#cards {
+    width: 500px;
+    height: 500px;
+    margin: auto;
+    /*position: absolute;*/
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.card {
+    float: left;
+}
+
+table, form {
+	margin: 0px auto 30px auto;
+}
+
+table, th, td {
+	border-collapse: collapse;
+ 	border: 2px solid black;
+ 	padding: 3px 5px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+    border-right:1px solid #bbb;
+}
+
+li:last-child {
+    border-right: none;
+}
+
+li.right {
+	float: right;
+	border-right: none;
+	border-left:1px solid #bbb;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #4CAF50;
+}
+
+span.error {
+	color: red;
+}
