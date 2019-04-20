@@ -16,4 +16,17 @@
         <module>memorygame-common-dto</module>
         <module>memorygame-common-exception</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>hu.fourdsoft</groupId>
+                <artifactId>memorygame-bom</artifactId>
+                <version>${project.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
 </project>
