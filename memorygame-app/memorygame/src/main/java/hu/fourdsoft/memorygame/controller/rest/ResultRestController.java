@@ -8,9 +8,11 @@ import hu.fourdsoft.xsdpojo.common.common.SuccessType;
 import hu.fourdsoft.xsdpojo.pojo.ResultRequest;
 import hu.fourdsoft.xsdpojo.pojo.ResultResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,22 +28,25 @@ import javax.servlet.http.HttpSession;
 @RequestMapping(value = "/game/result", method = RequestMethod.POST,
 		consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
-public class ResultRestController {
+public class ResultRestController implements XSDValidator {
 
 	@Autowired
 	private ResultService resultService;
 
-	public static final String XSD_POJO = "xsd_wsdl/hu/fourdsoft/xsdpojo/pojo.xsd";
+	private static final String XSD_POJO = "xsd_wsdl/hu/fourdsoft/xsdpojo/pojo.xsd";
 
-	@Value("classpath:" + XSD_POJO)
-	private Resource xsdResource;
+//	@Value("classpath:" + XSD_POJO)
+//	private Resource xsdResource;
+
+	@Autowired
+	ResourceLoader resourceLoader;
 
 	@RequestMapping("/save")
 	public ResponseEntity<ResultResponse> saveAction(HttpServletRequest request, @RequestBody ResultRequest resultRequest) throws MyApplicationException {
 
 		log.debug("ResultRestService.saveAction >>>");
 		try {
-			XSDValidator.validateByXSD(resultRequest, XSD_POJO, xsdResource);
+			validateByXSD(resultRequest, XSD_POJO);
 		} catch (Exception e) {
 			log.warn(e.getMessage(), e);
 			throw new MyApplicationException("Save unsuccessful: " + e.getMessage());
@@ -67,5 +72,13 @@ public class ResultRestController {
 	}
 
 
+	@Override
+	public ResourceLoader getResourceLoader() {
+		return resourceLoader;
+	}
 
+	@Override
+	public Logger getLog() {
+		return log;
+	}
 }

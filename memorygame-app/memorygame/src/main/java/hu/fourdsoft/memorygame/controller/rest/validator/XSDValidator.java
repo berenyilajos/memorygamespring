@@ -6,20 +6,23 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import hu.fourdsoft.memorygame.controller.rest.ResultRestController;
 import hu.fourdsoft.memorygame.error.MarshallingUtil;
 import hu.fourdsoft.memorygame.error.MyErrorHandler;
 import hu.fourdsoft.memorygame.error.ValidationErrorCollector;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 
 import java.io.InputStream;
 import java.io.StringWriter;
 
-@Slf4j
-public class XSDValidator {
+public interface XSDValidator {
 
-	public static void validateByXSD(Object xmlObject, String xsd, Resource xsdResource) throws Exception {
+	ResourceLoader getResourceLoader();
+
+	Logger getLog();
+
+	default void validateByXSD(Object xmlObject, String xsd) throws Exception {
 		StringWriter stringWriter = new StringWriter();
 		MyErrorHandler eh = new MyErrorHandler();
 		ValidationErrorCollector errorCollector = new ValidationErrorCollector();
@@ -34,6 +37,7 @@ public class XSDValidator {
 			SchemaFactory sf = null;
 			InputStream stream = null;
 
+			Resource xsdResource = getResourceLoader().getResource("classpath:" + xsd);
 			stream = xsdResource != null ? xsdResource.getInputStream() : null;
 			if (stream == null) {
 				throw new Exception("cannot find schema to validate");
@@ -48,10 +52,10 @@ public class XSDValidator {
 			marshaller.setSchema(schema);
 			marshaller.marshal(xmlObject, stringWriter);
 			if (errorCollector.getErrors().size() > 0) {
-				log.warn("xml validation error(s) occured!");
-				if (!log.isTraceEnabled()) {
+				getLog().warn("xml validation error(s) occured!");
+				if (!getLog().isTraceEnabled()) {
 					String xml = MarshallingUtil.marshall(xmlObject);
-					log.info("xml content: {} ", new Object[]{(xml == null ? "" : xml)});
+					getLog().info("xml content: {} ", new Object[]{(xml == null ? "" : xml)});
 				}
 				Exception ire = new Exception(
 						errorCollector.getErrors().get(0).getError());
