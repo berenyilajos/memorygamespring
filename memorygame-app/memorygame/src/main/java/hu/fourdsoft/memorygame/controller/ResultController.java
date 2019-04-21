@@ -2,7 +2,6 @@ package hu.fourdsoft.memorygame.controller;
 
 import hu.fourdsoft.memorygame.common.dto.ResultDTO;
 import hu.fourdsoft.memorygame.common.dto.UserDTO;
-import hu.fourdsoft.memorygame.dao.ResultRepository;
 import hu.fourdsoft.memorygame.service.ResultService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,7 @@ public class ResultController {
 	@RequestMapping
 	public ModelAndView listAction(HttpServletRequest request) throws ServletException, IOException {
 
-		log.debug("ResultService.listAction >>>");
+		log.debug("ResultController.listAction >>>");
 		HttpSession session = request.getSession(false);
 		if (session == null || session.getAttribute("user") == null) {
 			return new ModelAndView("redirect:/game/login");
@@ -39,7 +38,7 @@ public class ResultController {
 
 		ModelAndView view = new ModelAndView("result/results");
 		view.addObject("list", list);
-		log.debug("<<< ResultService.listAction");
+		log.debug("<<< ResultController.listAction");
 
 		return view;
 	}
@@ -47,7 +46,7 @@ public class ResultController {
 	@RequestMapping(value = "/{userId:\\d+}")
 	public ModelAndView showAction(HttpServletRequest request, @PathVariable("userId") String userId)
 			throws ServletException, IOException {
-		log.debug("ResultService.showAction, userId=[{}] >>>", userId);
+		log.debug("ResultController.showAction, userId=[{}] >>>", userId);
 		HttpSession session = request.getSession(false);
 		UserDTO user;
 		if (session == null || (user = (UserDTO) session.getAttribute("user")) == null || user.getId() != Long.parseLong(userId)) {
@@ -57,7 +56,7 @@ public class ResultController {
 		ModelAndView view = new ModelAndView("result/userresults");
 
 		view.addObject("list", list);
-		log.debug("<<< ResultService.listAction");
+		log.debug("<<< ResultController.listAction");
 
 		return view;
 	}

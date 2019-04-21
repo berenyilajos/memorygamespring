@@ -44,7 +44,7 @@ public class ResultRestController implements XSDValidator {
 	@RequestMapping("/save")
 	public ResponseEntity<ResultResponse> saveAction(HttpServletRequest request, @RequestBody ResultRequest resultRequest) throws MyApplicationException {
 
-		log.debug("ResultRestService.saveAction >>>");
+		log.debug("ResultRestController.saveAction >>>");
 		try {
 			validateByXSD(resultRequest, XSD_POJO);
 		} catch (Exception e) {
@@ -67,7 +67,7 @@ public class ResultRestController implements XSDValidator {
 		resultResponse.setSuccess(SuccessType.SUCCESS);
 		resultResponse.setUserId(userId);
 		//validateByXSD(resultResponse, XSD_POJO);
-		log.debug("<<< ResultRestService.saveAction");
+		log.debug("<<< ResultRestController.saveAction");
 		return ResponseEntity.ok(resultResponse);
 	}
 
