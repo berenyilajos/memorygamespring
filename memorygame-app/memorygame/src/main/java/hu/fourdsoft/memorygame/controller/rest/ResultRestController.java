@@ -1,7 +1,7 @@
 package hu.fourdsoft.memorygame.controller.rest;
 
 import hu.fourdsoft.memorygame.common.dto.UserDTO;
-import hu.fourdsoft.memorygame.controller.rest.validator.XSDValidator;
+import hu.fourdsoft.memorygame.validator.XSDValidator;
 import hu.fourdsoft.memorygame.exception.MyApplicationException;
 import hu.fourdsoft.memorygame.service.ResultService;
 import hu.fourdsoft.xsdpojo.common.common.SuccessType;
@@ -10,8 +10,6 @@ import hu.fourdsoft.xsdpojo.pojo.ResultResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

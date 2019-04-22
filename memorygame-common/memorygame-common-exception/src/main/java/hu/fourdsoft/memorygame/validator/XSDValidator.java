@@ -1,4 +1,4 @@
-package hu.fourdsoft.memorygame.controller.rest.validator;
+package hu.fourdsoft.memorygame.validator;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
