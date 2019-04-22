@@ -41,7 +41,7 @@ public class DtoHelper {
 		resultDTO.setId(result.getId());
 		resultDTO.setResultDate(result.getResultDate());
 		resultDTO.setSeconds(result.getSeconds());
-		resultDTO.setUser(toDTOWithoutResults(result.getUser()));
+		resultDTO.setUsername(result.getUser().getUsername());
 		return resultDTO;
 	}
 

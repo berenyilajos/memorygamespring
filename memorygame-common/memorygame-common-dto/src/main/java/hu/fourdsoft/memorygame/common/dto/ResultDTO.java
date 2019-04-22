@@ -9,5 +9,5 @@ public class ResultDTO {
 	private long id;
 	private Date resultDate;
 	private long seconds;
-	private UserDTO user;
+	private String username;
 }

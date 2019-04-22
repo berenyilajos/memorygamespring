@@ -89,6 +89,13 @@ li a:hover:not(.active) {
     background-color: #111;
 }
 
+li span {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+}
+
 .active {
     background-color: #4CAF50;
 }
