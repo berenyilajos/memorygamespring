@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="https://thymeleaf.org" th:with="currentPage='game'">
+<html xmlns:th="https://thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Memory Game</title>
@@ -257,7 +257,7 @@
 	</script>
 </head>
 <body>
-<div id="body">
+<div id="body" th:with="currentPage='game'">
 	<div th:replace="header :: loggedin"></div>
 	<div id="main">
 	    <h3>Memory Game</h3>

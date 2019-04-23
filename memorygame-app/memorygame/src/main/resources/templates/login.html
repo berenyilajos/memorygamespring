@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="https://thymeleaf.org" th:with="currentPage='login'">
+<html xmlns:th="https://thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Login</title>
@@ -11,7 +11,7 @@
 </script>
 </head>
 <body>
-	<div id="body">
+	<div id="body" th:with="currentPage='login'">
 		<div th:replace="header :: notloggedin"></div>
 		<h3>Login</h3>
         <form th:action="@{/game/login}" METHOD="POST">

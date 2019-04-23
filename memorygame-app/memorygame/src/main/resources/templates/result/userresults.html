@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="https://thymeleaf.org" th:with="currentPage='userresults'">
+<html xmlns:th="https://thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Myresults</title>
 <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
 <body>
-<div id="body">
+<div id="body" th:with="currentPage='userresults'">
 	<div th:replace="header :: loggedin"></div>
 	<h3>My results (only 6x6)</h3>
 	<table th:if="${list != null}">
