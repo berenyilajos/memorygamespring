@@ -73,6 +73,7 @@
 							<sourceRoot>${basedir}/target/generated-sources/src/main/java</sourceRoot>
 							<xsdOptions>
 								<xsdOption>
+									<xsd>src/main/resources/xsd_wsdl/hu/fourdsoft/xsdpojo/common/common.xsd</xsd>
 									<xsd>src/main/resources/xsd_wsdl/hu/fourdsoft/xsdpojo/pojo.xsd</xsd>
 									<extension>true</extension>
 								</xsdOption>
