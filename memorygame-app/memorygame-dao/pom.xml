@@ -10,7 +10,7 @@
 	<artifactId>memorygame-dao</artifactId>
 	<name>memorygame-dao</name>
 	<description>Dao project for Spring Boot</description>
-    
+
     <repositories>
         <repository>
             <id>local-maven-repo</id>
