@@ -7,7 +7,7 @@
 </head>
 <body>
 <div id="body" th:with="currentPage='register'">
-	<div th:replace="header :: notloggedin"></div>
+	<div th:insert="header :: notloggedin"></div>
 	<h3>REGISZTRÁCIÓ</h3>
 	<form th:action="@{/game/register}" METHOD="POST">
 		Username <input type="text" name="username" required /><br>

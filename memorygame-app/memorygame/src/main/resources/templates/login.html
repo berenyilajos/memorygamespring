@@ -12,7 +12,7 @@
 </head>
 <body>
 	<div id="body" th:with="currentPage='login'">
-		<div th:replace="header :: notloggedin"></div>
+		<div th:insert="header :: notloggedin"></div>
 		<h3>Login</h3>
         <form th:action="@{/game/login}" METHOD="POST">
             Username <input type="text" name="username" id="username" required /><br>

@@ -7,7 +7,7 @@
 </head>
 <body>
 <div id="body" th:with="currentPage='userresults'">
-	<div th:replace="header :: loggedin"></div>
+	<div th:insert="header :: loggedin"></div>
 	<h3>My results (only 6x6)</h3>
 	<table th:if="${list != null}">
 		<tr><th>ID</th><th>Date</th><th>Seconds</th><th>Username</th></tr>
