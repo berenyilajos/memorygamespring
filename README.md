@@ -1,7 +1,5 @@
 ﻿# memorygamespring
-
-## A program tartalma: egy webes Memória játék.
-
+## Webes Memória játék
 ### Elemek, amiket tartalmaz: Spring, JPA, Repository-k, 2 adatbáziskapcsolat ennek megfelelő tranzakciókezeléssel,
 exception kezelés (a REST részhez, ami az eredmények mentése), stb.
 
