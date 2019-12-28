@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MemorygameApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(new Class<?>[]{MemorygameApplication.class, MemorygameConfig.class}, args);
+		SpringApplication.run(MemorygameApplication.class, args);
 	}
 
 }

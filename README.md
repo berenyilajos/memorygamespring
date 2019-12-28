@@ -1,5 +1,10 @@
 ﻿# memorygamespring
 
+## A program tartalma: egy webes Memória játék.
+
+### Elemek, amiket tartalmaz: Spring, JPA, Repository-k, 2 adatbáziskapcsolat ennek megfelelő tranzakciókezeléssel,
+exception kezelés (a REST részhez, ami az eredmények mentése), stb.
+
 Rendszerfeltételek:
 
 A program 8-as Javával futtatható. Maven: 3.3.9 vagy 3.5.0
@@ -18,6 +23,9 @@ de pl. az Oracle 10 Xe böngészős adatbáziskezelőjében (apex) a "/" jelekke
 Utána az alapadatokat a csv (először a users, majd a result) file-okból importáljuk,
 vagy a usereket regisztráció útján is létre lehet hozni.
 
+Majd hozzuk létre az MGD user/schema-t (jelszó 'mgd'), a createMGDuser.sql segítségével.
+Hozzuk létre a ResultData táblát a resultDataCreate.sql futtatásával.
+
 A memorygamespring mappában futtasuk az "mvn install" parancsot.
 
 Ezután a memorygame/target mappából futtatható a java -jar memorygame.jar paranccsal.
@@ -25,5 +33,6 @@ Ezután a memorygame/target mappából futtatható a java -jar memorygame.jar pa
 Ezután az oldal elérhető a localhost:8484/memorygame url-en.
 
 Wadl file információk: localhost:8484/memorygame/game/application.wadl
+(Ez - a springben nem találtam megfelelő wadl generátort - nem működik tökéletesen)
 
 Jó játékot!

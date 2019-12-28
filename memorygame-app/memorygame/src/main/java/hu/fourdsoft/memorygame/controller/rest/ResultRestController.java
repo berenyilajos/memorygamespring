@@ -1,6 +1,7 @@
 package hu.fourdsoft.memorygame.controller.rest;
 
 import hu.fourdsoft.memorygame.common.dto.UserDTO;
+import hu.fourdsoft.memorygame.data.service.ResultDataService;
 import hu.fourdsoft.memorygame.validator.XSDValidator;
 import hu.fourdsoft.memorygame.exception.MyApplicationException;
 import hu.fourdsoft.memorygame.service.ResultService;
@@ -30,6 +31,9 @@ public class ResultRestController implements XSDValidator {
 
 	@Autowired
 	private ResultService resultService;
+	
+	@Autowired
+	private ResultDataService resultDataService;
 
 	private static final String XSD_POJO = "xsd_wsdl/hu/fourdsoft/xsdpojo/pojo.xsd";
 
@@ -62,6 +66,8 @@ public class ResultRestController implements XSDValidator {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(resultResponse);
 		}
 		resultService.saveResult(seconds, user);
+		resultDataService.saveResultData(seconds, userId);
+		log.info("ResultDats: " + resultDataService.getResultDatas());
 		resultResponse.setSuccess(SuccessType.SUCCESS);
 		resultResponse.setUserId(userId);
 		//validateByXSD(resultResponse, XSD_POJO);

@@ -21,6 +21,7 @@ import org.jvnet.ws.wadl.Resource;
 import org.jvnet.ws.wadl.Resources;
 import org.jvnet.ws.wadl.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -47,6 +48,7 @@ import javax.xml.namespace.QName;
 public class WadlController {
 	
 	@Autowired
+	@Qualifier("memorygameEntityManagerFactory")
 	private EntityManager em;
 
 	private String xs_namespace="http://www.w3.org/2001/XMLSchema" ;

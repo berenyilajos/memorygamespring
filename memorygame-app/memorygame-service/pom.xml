@@ -18,6 +18,10 @@
 		</dependency>
 		<dependency>
 			<groupId>hu.fourdsoft</groupId>
+			<artifactId>memorygame-data-dao</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>hu.fourdsoft</groupId>
 			<artifactId>memorygame-common-exception</artifactId>
 		</dependency>
 		<dependency>

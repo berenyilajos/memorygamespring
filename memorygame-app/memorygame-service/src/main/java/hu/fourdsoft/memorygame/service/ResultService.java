@@ -6,11 +6,12 @@ import hu.fourdsoft.memorygame.common.dto.helper.DtoHelper;
 import hu.fourdsoft.memorygame.common.model.Result;
 import hu.fourdsoft.memorygame.common.model.User;
 import hu.fourdsoft.memorygame.dao.ResultRepository;
+import hu.fourdsoft.memorygame.transactions.MemorygameTransactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -20,17 +21,14 @@ public class ResultService {
     @Autowired
     private ResultRepository resultRepository;
 
-    @Transactional
     public List<ResultDTO> findAll() {
         return DtoHelper.resultsToDTO(resultRepository.findAll());
     }
 
-	@Transactional
 	public List<ResultDTO> getResultsByUser(UserDTO user) {
     	return DtoHelper.resultsToDTO(resultRepository.findByUserOrderBySecondsAsc(DtoHelper.toEntity(user), PageRequest.of(0, 20)));
 	}
 
-	@Transactional
 	public List<ResultDTO> getAllResults() {
     	//return DtoHelper.resultsToDTO(resultRepository.findAllByOrderBySecondsAscResultDateDesc(PageRequest.of(0, 20)));
 		Pageable pageable = PageRequest.of(0, 20);
@@ -38,7 +36,7 @@ public class ResultService {
 				.resultsToDTO(resultRepository.findAllByOrderBySecondsAscResultDateDescUserNameAscJoinFetchUser(pageable));
 	}
 
-	@Transactional
+	@MemorygameTransactional
 	public void saveResult(int seconds, UserDTO userDto) {
 		User user = DtoHelper.toEntity(userDto);
 		Result result = new Result();

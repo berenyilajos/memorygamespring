@@ -2,6 +2,8 @@ package hu.fourdsoft.memorygame.common.dto.helper;
 
 import hu.fourdsoft.memorygame.common.model.Result;
 import hu.fourdsoft.memorygame.common.model.User;
+import hu.fourdsoft.memorygame.common.data.dto.ResultDataDTO;
+import hu.fourdsoft.memorygame.common.data.model.ResultData;
 import hu.fourdsoft.memorygame.common.dto.ResultDTO;
 import hu.fourdsoft.memorygame.common.dto.UserDTO;
 
@@ -63,5 +65,24 @@ public class DtoHelper {
 			return null;
 		}
 		return new User(userDto.getId(), userDto.getUsername(), userDto.getEmail(), userDto.getPassword());
+	}
+	
+	public static ResultDataDTO toDTO(ResultData result) {
+		if (result == null) {
+			return null;
+		}
+		ResultDataDTO resultDTO = new ResultDataDTO();
+		resultDTO.setId(result.getId());
+		resultDTO.setResultDate(result.getResultDate());
+		resultDTO.setSeconds(result.getSeconds());
+		resultDTO.setUserId(result.getUserId());
+		return resultDTO;
+	}
+	
+	public static List<ResultDataDTO> resultDatasToDTO(List<ResultData> results) {
+		if (results == null) {
+			return null;
+		}
+		return results.stream().map(DtoHelper::toDTO).collect(Collectors.toList());
 	}
 }
