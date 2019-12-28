@@ -19,6 +19,7 @@ public class MemorygameExceptionHandler {
         ResultResponse rrt = new ResultResponse();
         rrt.setSuccess(SuccessType.ERROR);
         rrt.setMessage(exception.getMessage());
+        log.debug(rrt.getMessage());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON).body(rrt);
     }
