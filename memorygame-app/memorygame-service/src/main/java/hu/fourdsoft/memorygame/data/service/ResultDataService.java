@@ -13,6 +13,9 @@ import hu.fourdsoft.memorygame.common.dto.helper.DtoHelper;
 import hu.fourdsoft.memorygame.data.dao.ResultDataRepository;
 import hu.fourdsoft.memorygame.data.transactions.MemorygameDataTransactional;
 
+//import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
+
 @Service
 public class ResultDataService {
 	
@@ -23,7 +26,7 @@ public class ResultDataService {
 		return DtoHelper.resultDatasToDTO(resultDataRepository.findAllByOrderBySecondsAscResultDateDesc(PageRequest.of(0, 20)));
 	}
 	
-	@MemorygameDataTransactional
+	@Transactional
 	public void saveResultData(int seconds, long userId) {
 		ResultData resultData = new ResultData();
 		resultData.setSeconds(seconds);

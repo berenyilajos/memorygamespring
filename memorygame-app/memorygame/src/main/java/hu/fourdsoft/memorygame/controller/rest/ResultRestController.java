@@ -66,8 +66,8 @@ public class ResultRestController implements XSDValidator {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(resultResponse);
 		}
 		resultService.saveResult(seconds, user);
-		resultDataService.saveResultData(seconds, userId);
-		log.info("ResultDats: " + resultDataService.getResultDatas());
+//		resultDataService.saveResultData(seconds, userId);
+//		log.info("ResultDats: " + resultDataService.getResultDatas());
 		resultResponse.setSuccess(SuccessType.SUCCESS);
 		resultResponse.setUserId(userId);
 		//validateByXSD(resultResponse, XSD_POJO);

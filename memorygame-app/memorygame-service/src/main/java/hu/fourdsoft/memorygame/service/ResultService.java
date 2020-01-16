@@ -1,18 +1,21 @@
 package hu.fourdsoft.memorygame.service;
 
+import hu.fourdsoft.memorygame.common.data.model.ResultData;
 import hu.fourdsoft.memorygame.common.dto.ResultDTO;
 import hu.fourdsoft.memorygame.common.dto.UserDTO;
 import hu.fourdsoft.memorygame.common.dto.helper.DtoHelper;
 import hu.fourdsoft.memorygame.common.model.Result;
 import hu.fourdsoft.memorygame.common.model.User;
 import hu.fourdsoft.memorygame.dao.ResultRepository;
-import hu.fourdsoft.memorygame.transactions.MemorygameTransactional;
 
+import hu.fourdsoft.memorygame.data.dao.ResultDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+//import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +23,9 @@ import java.util.List;
 public class ResultService {
     @Autowired
     private ResultRepository resultRepository;
+
+	@Autowired
+	private ResultDataRepository resultDataRepository;
 
     public List<ResultDTO> findAll() {
         return DtoHelper.resultsToDTO(resultRepository.findAll());
@@ -36,13 +42,16 @@ public class ResultService {
 				.resultsToDTO(resultRepository.findAllByOrderBySecondsAscResultDateDescUserNameAscJoinFetchUser(pageable));
 	}
 
-	@MemorygameTransactional
+	@Transactional
 	public void saveResult(int seconds, UserDTO userDto) {
 		User user = DtoHelper.toEntity(userDto);
 		Result result = new Result();
 		result.setSeconds(seconds);
 		result.setUser(user);
 		result.setResultDate(new Date());
-		resultRepository.saveAndFlush(result);
+		resultRepository.save(result);
+		ResultData resultData = new ResultData(0, user.getId(), new Date(), seconds);
+		resultDataRepository.save(resultData);
+//		throw new NullPointerException("TESZT FOR ROLLBACK!!!!!!!!");
 	}
 }

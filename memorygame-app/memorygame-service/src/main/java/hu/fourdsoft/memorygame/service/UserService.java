@@ -5,11 +5,12 @@ import hu.fourdsoft.memorygame.common.dto.helper.DtoHelper;
 import hu.fourdsoft.memorygame.common.model.User;
 import hu.fourdsoft.memorygame.dao.UserRepository;
 import hu.fourdsoft.memorygame.exception.UserAllreadyExistException;
-import hu.fourdsoft.memorygame.transactions.MemorygameTransactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+//import javax.transaction.Transactional;
 import javax.xml.bind.DatatypeConverter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -30,7 +31,7 @@ public class UserService {
     	return DtoHelper.toDTOWithoutResults(userRepository.findOneByUsernameAndPassword(username, getMD5(password)));
 	}
 
-	@MemorygameTransactional
+	@Transactional
 	public void saveUser(String username, String password) throws UserAllreadyExistException {
     	Optional<User> existsUuser = userRepository.findByUsername(username);
     	if (existsUuser.isPresent()) {
