@@ -59,19 +59,14 @@ public class MemorygameDataSourceConfiguration {
             DataSource memorygameDataSource) throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put("hibernate.transaction.factory_class", "jta");
-        LocalContainerEntityManagerFactoryBean bean = builder
+        properties.put("hibernate.transaction.jta.platform", "hu.fourdsoft.memorygame.jta.BitronixJtaPlatform");
+        return builder
                 .dataSource(memorygameDataSource)
                 .packages("hu.fourdsoft.memorygame.common.model")
                 .persistenceUnit("memorygame")
                 .jta(true)
                 .properties(properties)
                 .build();
-        Properties prop = new Properties();
-        prop.put("hibernate.transaction.factory_class", "jta");
-        prop.put("hibernate.transaction.jta.platform", "hu.fourdsoft.memorygame.jta.BitronixJtaPlatform");
-        bean.setJpaProperties(prop);
-
-        return bean;
     }
 
 }
