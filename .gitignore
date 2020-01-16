@@ -10,6 +10,7 @@ MANIFEST.MF
 .tern-project
 *.iml
 *.log
+*.tlog
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 

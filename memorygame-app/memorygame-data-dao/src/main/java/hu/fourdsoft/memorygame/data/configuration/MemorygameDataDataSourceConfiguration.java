@@ -1,8 +1,7 @@
 package hu.fourdsoft.memorygame.data.configuration;
 
-import javax.sql.DataSource;
-
-import com.atomikos.jdbc.AtomikosDataSourceBean;
+import bitronix.tm.resource.jdbc.PoolingDataSource;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -13,6 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -31,30 +31,32 @@ public class MemorygameDataDataSourceConfiguration {
         return new DataSourceProperties();
     }
 
-    @Bean
-    @ConfigurationProperties("app.datasource.memorygame.data.configuration")
-    public DataSource memorygameDataDataSource() throws Exception {
+    @Bean(name = "memorygameDataDataSource")
+    public DataSource memorygameDataDataSource() {
         DataSourceProperties properties = memorygameDataDataSourceProperties();
-        AtomikosDataSourceBean dataSourceBean = new AtomikosDataSourceBean();
-        dataSourceBean.setXaDataSourceClassName("oracle.jdbc.xa.client.OracleXADataSource");
+        PoolingDataSource bitronixDataSourceBean = new PoolingDataSource();
+        bitronixDataSourceBean.setMaxPoolSize(5);
+        bitronixDataSourceBean.setUniqueName("MemoryGameDataDS");
+        bitronixDataSourceBean.setClassName("oracle.jdbc.xa.client.OracleXADataSource");
         Properties xaProperties = new Properties();
         xaProperties.put("URL", properties.getUrl());
         xaProperties.put("user", properties.getUsername());
         xaProperties.put("password", properties.getPassword());
-        dataSourceBean.setXaProperties(xaProperties);
-        dataSourceBean.setMinPoolSize(10);
-        dataSourceBean.setMaxPoolSize(20);
-        dataSourceBean.setUniqueResourceName("MemoryGameDataDS");
-        return dataSourceBean;
+        bitronixDataSourceBean.setDriverProperties(xaProperties);
+        bitronixDataSourceBean.setAllowLocalTransactions(true);
+        bitronixDataSourceBean.setIgnoreRecoveryFailures(true);
+        return bitronixDataSourceBean;
     }
 
     @Bean(name = "memorygameDataEntityManagerFactory")
-    @DependsOn("atomikosJtaPlatform")
-    public LocalContainerEntityManagerFactoryBean memorygameDataEntityManagerFactory(EntityManagerFactoryBuilder builder) throws Exception {
+    @DependsOn({"transactionManager", "memorygameDataDataSource"})
+    public LocalContainerEntityManagerFactoryBean memorygameDataEntityManagerFactory(
+            EntityManagerFactoryBuilder builder,
+            @Qualifier("memorygameDataDataSource") DataSource memorygameDataDataSource) throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put("hibernate.transaction.factory_class", "jta");
         LocalContainerEntityManagerFactoryBean bean = builder
-                .dataSource(memorygameDataDataSource())
+                .dataSource(memorygameDataDataSource)
                 .packages("hu.fourdsoft.memorygame.common.data.model")
                 .persistenceUnit("memorygameData")
                 .jta(true)
@@ -62,7 +64,7 @@ public class MemorygameDataDataSourceConfiguration {
                 .build();
         Properties prop = new Properties();
         prop.put("hibernate.transaction.factory_class", "jta");
-        prop.put("hibernate.transaction.jta.platform", "hu.fourdsoft.memorygame.jta.AtomikosJtaPlatform");
+        prop.put("hibernate.transaction.jta.platform", "hu.fourdsoft.memorygame.jta.BitronixJtaPlatform");
         bean.setJpaProperties(prop);
 
         return bean;

@@ -6,7 +6,7 @@ import org.junit.Assert;
 import javax.transaction.TransactionManager;
 import javax.transaction.UserTransaction;
 
-public class AtomikosJtaPlatform extends AbstractJtaPlatform {
+public class BitronixJtaPlatform extends AbstractJtaPlatform {
 
     private static TransactionManager transactionManager;
     private static UserTransaction userTransaction;
@@ -23,19 +23,11 @@ public class AtomikosJtaPlatform extends AbstractJtaPlatform {
         return userTransaction;
     }
 
-    public void setAtomikusTransactionManager(TransactionManager transactionManager) {
-        AtomikosJtaPlatform.transactionManager = transactionManager;
+    public static void setBitronixTransactionManager(TransactionManager transactionManager) {
+        BitronixJtaPlatform.transactionManager = transactionManager;
     }
 
-    public void setAtomikusUserTransaction(UserTransaction userTransaction) {
-        AtomikosJtaPlatform.userTransaction = userTransaction;
-    }
-
-    public TransactionManager getAtomikusTransactionManager() {
-        return locateTransactionManager();
-    }
-
-    public UserTransaction getAtomikusUserTransaction() {
-        return locateUserTransaction();
+    public static void setBitronixUserTransaction(UserTransaction userTransaction) {
+        BitronixJtaPlatform.userTransaction = userTransaction;
     }
 }

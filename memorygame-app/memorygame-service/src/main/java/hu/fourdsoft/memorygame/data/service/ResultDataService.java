@@ -11,10 +11,9 @@ import hu.fourdsoft.memorygame.common.data.dto.ResultDataDTO;
 import hu.fourdsoft.memorygame.common.data.model.ResultData;
 import hu.fourdsoft.memorygame.common.dto.helper.DtoHelper;
 import hu.fourdsoft.memorygame.data.dao.ResultDataRepository;
-import hu.fourdsoft.memorygame.data.transactions.MemorygameDataTransactional;
 
-//import javax.transaction.Transactional;
-import org.springframework.transaction.annotation.Transactional;
+import javax.transaction.Transactional;
+//import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ResultDataService {
