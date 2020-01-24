@@ -2,7 +2,6 @@ package hu.fourdsoft.memorygame.data.configuration;
 
 import bitronix.tm.resource.jdbc.PoolingDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
@@ -26,23 +25,18 @@ import java.util.Properties;
 public class MemorygameDataDataSourceConfiguration {
 	
 	@Bean
-    @ConfigurationProperties("app.datasource.memorygame.data")
-    public DataSourceProperties memorygameDataDataSourceProperties() {
-        return new DataSourceProperties();
+    @ConfigurationProperties("app.datasource.memorygamedata")
+    public Properties memorygameDataDataSourceProperties() {
+        return new Properties();
     }
 
     @Bean(name = "memorygameDataDataSource")
     public DataSource memorygameDataDataSource() {
-        DataSourceProperties properties = memorygameDataDataSourceProperties();
         PoolingDataSource bitronixDataSourceBean = new PoolingDataSource();
         bitronixDataSourceBean.setMaxPoolSize(5);
         bitronixDataSourceBean.setUniqueName("MemoryGameDataDS");
         bitronixDataSourceBean.setClassName("oracle.jdbc.xa.client.OracleXADataSource");
-        Properties xaProperties = new Properties();
-        xaProperties.put("URL", properties.getUrl());
-        xaProperties.put("user", properties.getUsername());
-        xaProperties.put("password", properties.getPassword());
-        bitronixDataSourceBean.setDriverProperties(xaProperties);
+        bitronixDataSourceBean.setDriverProperties(memorygameDataDataSourceProperties());
         bitronixDataSourceBean.setAllowLocalTransactions(true);
         bitronixDataSourceBean.setIgnoreRecoveryFailures(true);
         return bitronixDataSourceBean;
