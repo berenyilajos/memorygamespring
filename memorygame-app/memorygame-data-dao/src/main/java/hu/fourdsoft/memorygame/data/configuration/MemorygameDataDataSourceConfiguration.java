@@ -30,6 +30,12 @@ public class MemorygameDataDataSourceConfiguration {
         return new Properties();
     }
 
+    @Bean("memorygamedatahibernateproperties")
+    @ConfigurationProperties("app.datasource.hibernate.memorygamedata")
+    public Map<String, Object> memorygamedataHibernateProperties() {
+        return new HashMap<>();
+    }
+
     @Bean(name = "memorygameDataDataSource")
     public DataSource memorygameDataDataSource() {
         PoolingDataSource bitronixDataSourceBean = new PoolingDataSource();
@@ -47,15 +53,12 @@ public class MemorygameDataDataSourceConfiguration {
     public LocalContainerEntityManagerFactoryBean memorygameDataEntityManagerFactory(
             EntityManagerFactoryBuilder builder,
             @Qualifier("memorygameDataDataSource") DataSource memorygameDataDataSource) throws Exception {
-        Map<String, Object> properties = new HashMap<>();
-        properties.put("hibernate.transaction.factory_class", "jta");
-        properties.put("hibernate.transaction.jta.platform", "hu.fourdsoft.memorygame.jta.BitronixJtaPlatform");
         return builder
                 .dataSource(memorygameDataDataSource)
                 .packages("hu.fourdsoft.memorygame.common.data.model")
                 .persistenceUnit("memorygameData")
                 .jta(true)
-                .properties(properties)
+                .properties(memorygamedataHibernateProperties())
                 .build();
     }
 
