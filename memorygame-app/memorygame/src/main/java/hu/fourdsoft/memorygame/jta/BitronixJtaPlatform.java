@@ -8,6 +8,7 @@ import javax.transaction.UserTransaction;
 
 public class BitronixJtaPlatform extends AbstractJtaPlatform {
 
+    private static final long serialVersionUID = 1L;
     private static TransactionManager transactionManager;
     private static UserTransaction userTransaction;
 
