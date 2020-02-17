@@ -36,10 +36,7 @@ public class ResultService {
 	}
 
 	public List<ResultDTO> getAllResults() {
-    	//return DtoHelper.resultsToDTO(resultRepository.findAllByOrderBySecondsAscResultDateDesc(PageRequest.of(0, 20)));
-		Pageable pageable = PageRequest.of(0, 20);
-		return DtoHelper
-				.resultsToDTO(resultRepository.findAllByOrderBySecondsAscResultDateDescUserNameAscJoinFetchUser(pageable));
+    	return DtoHelper.resultsToDTO(resultRepository.findAllByOrderBySecondsAscResultDateDesc(PageRequest.of(0, 30)));
 	}
 
 	@Transactional
