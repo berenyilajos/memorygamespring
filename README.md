@@ -6,6 +6,9 @@ Rendszerfeltételek:
 
 A program 11-es Javával futtatható. Maven: 3.6.0 vagy  újabb
 
+API DTO-k https://editor.swagger.io alatt lettek generálva a jersey server generálóval.
+Az enumba (SuccessType) a fromvalue metódus át lett írva fromStringre, a toStringre pedig rá lett téve a @JsonValue annotáció
+
 Adatbázis:
 Oracle 10 XE (de 11-es adatbázis is megteszi)
 

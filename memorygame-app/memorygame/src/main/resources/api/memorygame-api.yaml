@@ -1,0 +1,80 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  title: Memorygame rest app
+paths:
+  /swagger:
+    x-swagger-pipe: swagger_raw
+  /game/result/save:
+    x-swagger-router-controller: main_controller
+    post:
+      tags:
+        - Methods
+      summary: Returns save result
+      description: Save result
+      operationId: save
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResultRequest"
+      responses:
+        "200":
+          description: Save is successfull
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResultResponse"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+servers:
+  - url: http://localhost:8484/memorygame
+components:
+  schemas:
+    SuccessType:
+      type: string
+      enum:
+        - success
+        - error
+    ErrorResponse:
+      required:
+        - message
+        - success
+      properties:
+        message:
+          type: string
+        success:
+          $ref: "#/components/schemas/SuccessType"
+    ResultRequest:
+      required:
+        - userId
+        - seconds
+      properties:
+        userId:
+          type: integer
+          format: int64
+        seconds:
+          type: integer
+          minimum: 150
+          format: int32
+    ResultResponse:
+      required:
+        - success
+        - seconds
+        - userId
+      properties:
+        success:
+          $ref: "#/components/schemas/SuccessType"
+        seconds:
+          type: integer
+          format: int32
+        message:
+          type: string
+          nullable: true
+        userId:
+          type: integer
+          format: int64
