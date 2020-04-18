@@ -59,7 +59,8 @@ components:
           format: int64
         seconds:
           type: integer
-          minimum: 150
+          minimum: 30
+          maximum: 180
           format: int32
     ResultResponse:
       required:
