@@ -1,10 +1,14 @@
 ﻿# memorygamespring
 ## Webes Memória játék
-### Elemek, amiket tartalmaz: Spring, JPA, Repository-k, 2 adatbáziskapcsolat ennek megfelelő tranzakciókezeléssel, exception kezelés (a REST részhez, ami az eredmények mentése), stb.
+### Elemek, amiket tartalmaz: Spring, JPA, Repository-k, 2 adatbáziskapcsolat ennek megfelelő tranzakciókezeléssel, exception kezelés (a REST részhez, ami az eredmények mentése), Swagger, stb.
 
 Rendszerfeltételek:
 
 A program 8-as Javával futtatható. Maven: 3.3.9 vagy 3.5.0
+
+API DTO-k https://editor.swagger.io alatt lettek generálva a jersey server generálóval.
+Az enumba (SuccessType) a fromvalue metódus át lett írva fromStringre, a toStringre pedig rá lett téve a @JsonValue annotáció
+Az API metódusok a http://localhost:8484/memorygame/swagger-ui.html url-en láthatóak
 
 Adatbázis:
 Oracle 10 XE (de 11-es adatbázis is megteszi)

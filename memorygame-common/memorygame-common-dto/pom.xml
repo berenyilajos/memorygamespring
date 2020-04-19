@@ -20,6 +20,22 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -54,33 +70,26 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.cxf</groupId>
-				<artifactId>cxf-xjc-plugin</artifactId>
-				<version>3.3.0</version>
-				<configuration>
-					<extensions>
-						<extension>org.apache.cxf.xjcplugins:cxf-xjc-dv:3.3.0</extension>
-					</extensions>
-				</configuration>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxb2-maven-plugin</artifactId>
+				<version>2.5.0</version>
 				<executions>
 					<execution>
-						<id>generate-sources</id>
-						<phase>generate-sources</phase>
+						<id>xjc</id>
 						<goals>
-							<goal>xsdtojava</goal>
+							<goal>xjc</goal>
 						</goals>
-						<configuration>
-							<sourceRoot>${basedir}/target/generated-sources/src/main/java</sourceRoot>
-							<xsdOptions>
-								<xsdOption>
-									<xsd>src/main/resources/xsd_wsdl/hu/fourdsoft/xsdpojo/common/common.xsd</xsd>
-									<xsd>src/main/resources/xsd_wsdl/hu/fourdsoft/xsdpojo/pojo.xsd</xsd>
-									<extension>true</extension>
-								</xsdOption>
-							</xsdOptions>
-						</configuration>
 					</execution>
 				</executions>
+				<configuration>
+					<sources>
+						<source>${basedir}/src/main/resources/xsd_wsdl/hu/fourdsoft/xsdpojo/pojo.xsd</source>
+					</sources>
+					<xjbSources>
+						<xjbSource>${basedir}/src/main/resources/xsd_wsdl/hu/fourdsoft/xsdpojo/bindings.xjb</xjbSource>
+					</xjbSources>
+					<outputDirectory>${basedir}/target/generated-sources/src/main/java</outputDirectory>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

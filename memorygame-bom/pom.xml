@@ -11,6 +11,11 @@
     <artifactId>memorygame-bom</artifactId>
     <packaging>pom</packaging>
 
+    <properties>
+        <swagger-request-validator.version>2.9.0</swagger-request-validator.version>
+        <springdoc-openapi.version>1.2.32</springdoc-openapi.version>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -59,6 +64,21 @@
                 <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>
+                <groupId>com.atlassian.oai</groupId>
+                <artifactId>swagger-request-validator-core</artifactId>
+                <version>${swagger-request-validator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.atlassian.oai</groupId>
+                <artifactId>swagger-request-validator-springmvc</artifactId>
+                <version>${swagger-request-validator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.atlassian.oai</groupId>
+                <artifactId>swagger-request-validator-restassured</artifactId>
+                <version>${swagger-request-validator.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.jvnet.ws.wadl</groupId>
                 <artifactId>wadl-client-plugin</artifactId>
                 <version>1.1.6</version>
@@ -82,6 +102,26 @@
                 <groupId>org.codehaus.jackson</groupId>
                 <artifactId>jackson-mapper-asl</artifactId>
                 <version>1.9.13</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>2.1.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${springdoc-openapi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-webmvc-core</artifactId>
+                <version>${springdoc-openapi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>2.0.1.Final</version>
             </dependency>
             <dependency>
                 <groupId>xerces</groupId>

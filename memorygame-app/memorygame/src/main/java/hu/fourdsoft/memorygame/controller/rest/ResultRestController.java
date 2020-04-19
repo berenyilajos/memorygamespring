@@ -1,13 +1,13 @@
 package hu.fourdsoft.memorygame.controller.rest;
 
+import hu.fourdsoft.memorygame.common.api.dto.ResultRequest;
+import hu.fourdsoft.memorygame.common.api.dto.ResultResponse;
+import hu.fourdsoft.memorygame.common.api.dto.SuccessType;
 import hu.fourdsoft.memorygame.common.dto.UserDTO;
 import hu.fourdsoft.memorygame.data.service.ResultDataService;
 import hu.fourdsoft.memorygame.validator.XSDValidator;
 import hu.fourdsoft.memorygame.exception.MyApplicationException;
 import hu.fourdsoft.memorygame.service.ResultService;
-import hu.fourdsoft.xsdpojo.common.common.SuccessType;
-import hu.fourdsoft.xsdpojo.pojo.ResultRequest;
-import hu.fourdsoft.xsdpojo.pojo.ResultResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 @RestController
 @RequestMapping(value = "/game/result", method = RequestMethod.POST,
@@ -47,12 +48,12 @@ public class ResultRestController implements XSDValidator {
 	public ResponseEntity<ResultResponse> saveAction(HttpServletRequest request, @RequestBody ResultRequest resultRequest) throws MyApplicationException {
 
 		log.debug("ResultRestController.saveAction >>>");
-		try {
-			validateByXSD(resultRequest, XSD_POJO);
-		} catch (Exception e) {
-			log.warn(e.getMessage(), e);
-			throw new MyApplicationException("Save unsuccessful: " + e.getMessage());
-		}
+//		try {
+//			validateByXSD(resultRequest, XSD_POJO);
+//		} catch (Exception e) {
+//			log.warn(e.getMessage(), e);
+//			throw new MyApplicationException("Save unsuccessful: " + e.getMessage());
+//		}
 
 		ResultResponse resultResponse = new ResultResponse();
 		int seconds = resultRequest.getSeconds();
@@ -70,6 +71,9 @@ public class ResultRestController implements XSDValidator {
 		log.info("ResultDats: " + resultDataService.getResultDatas());
 		resultResponse.setSuccess(SuccessType.SUCCESS);
 		resultResponse.setUserId(userId);
+		Date now = new Date();
+		resultResponse.setResultDate(now);
+		resultResponse.setResultDateTime(now);
 		//validateByXSD(resultResponse, XSD_POJO);
 		log.debug("<<< ResultRestController.saveAction");
 		return ResponseEntity.ok(resultResponse);
