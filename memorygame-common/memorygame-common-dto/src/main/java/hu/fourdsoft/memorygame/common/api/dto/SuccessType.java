@@ -10,11 +10,9 @@
  * Do not edit the class manually.
  */
 
-package hu.fourdsoft.mamorygame.common.api.dto;
+package hu.fourdsoft.memorygame.common.api.dto;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonValue;
-import javax.validation.constraints.*;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 

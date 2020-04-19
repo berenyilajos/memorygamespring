@@ -10,11 +10,13 @@
  * Do not edit the class manually.
  */
 
-package hu.fourdsoft.mamorygame.common.api.dto;
+package hu.fourdsoft.memorygame.common.api.dto;
 
+import java.util.Date;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import javax.validation.constraints.*;
 
@@ -33,6 +35,14 @@ import javax.validation.constraints.*;
 
   @JsonProperty("userId")
   private Long userId = null;
+
+  @JsonProperty("resultDate")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Europe/Budapest")
+  private Date resultDate = null;
+
+  @JsonProperty("resultDateTime")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Europe/Budapest")
+  private Date resultDateTime = null;
 
   public ResultResponse success(SuccessType success) {
     this.success = success;
@@ -113,9 +123,48 @@ import javax.validation.constraints.*;
     this.userId = userId;
   }
 
+  public ResultResponse resultDate(Date resultDate) {
+    this.resultDate = resultDate;
+    return this;
+  }
+
+  /**
+   * Get resultDate
+   * @return resultDate
+   **/
+  @JsonProperty("resultDate")
+  @Schema(format = "date", description = "")
+  @NotNull
+  public Date getResultDate() {
+    return resultDate;
+  }
+
+  public void setResultDate(Date resultDate) {
+    this.resultDate = resultDate;
+  }
+
+  public ResultResponse resultDateTime(Date resultDateTime) {
+    this.resultDateTime = resultDateTime;
+    return this;
+  }
+
+  /**
+   * Get resultDateTime
+   * @return resultDateTime
+   **/
+  @JsonProperty("resultDateTime")
+  @Schema(format = "date-time", description = "")
+  public Date getResultDateTime() {
+    return resultDateTime;
+  }
+
+  public void setResultDateTime(Date resultDateTime) {
+    this.resultDateTime = resultDateTime;
+  }
+
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -124,14 +173,16 @@ import javax.validation.constraints.*;
     }
     ResultResponse resultResponse = (ResultResponse) o;
     return Objects.equals(this.success, resultResponse.success) &&
-        Objects.equals(this.seconds, resultResponse.seconds) &&
-        Objects.equals(this.message, resultResponse.message) &&
-        Objects.equals(this.userId, resultResponse.userId);
+            Objects.equals(this.seconds, resultResponse.seconds) &&
+            Objects.equals(this.message, resultResponse.message) &&
+            Objects.equals(this.userId, resultResponse.userId) &&
+            Objects.equals(this.resultDate, resultResponse.resultDate) &&
+            Objects.equals(this.resultDateTime, resultResponse.resultDateTime);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(success, seconds, message, userId);
+    return Objects.hash(success, seconds, message, userId, resultDate, resultDateTime);
   }
 
 
@@ -139,11 +190,13 @@ import javax.validation.constraints.*;
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ResultResponse {\n");
-    
+
     sb.append("    success: ").append(toIndentedString(success)).append("\n");
     sb.append("    seconds: ").append(toIndentedString(seconds)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
+    sb.append("    resultDate: ").append(toIndentedString(resultDate)).append("\n");
+    sb.append("    resultDateTime: ").append(toIndentedString(resultDateTime)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -152,7 +205,7 @@ import javax.validation.constraints.*;
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

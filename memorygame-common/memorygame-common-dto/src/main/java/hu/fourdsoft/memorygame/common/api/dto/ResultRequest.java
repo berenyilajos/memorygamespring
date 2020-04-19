@@ -10,11 +10,13 @@
  * Do not edit the class manually.
  */
 
-package hu.fourdsoft.mamorygame.common.api.dto;
+package hu.fourdsoft.memorygame.common.api.dto;
 
+import java.util.Date;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import javax.validation.constraints.*;
 
@@ -48,6 +50,14 @@ import javax.validation.constraints.*;
     this.userId = userId;
   }
 
+  @JsonProperty("resultDate")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Europe/Budapest")
+  private Date resultDate = null;
+
+  @JsonProperty("resultDateTime")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Europe/Budapest")
+  private Date resultDateTime = null;
+
   public ResultRequest seconds(Integer seconds) {
     this.seconds = seconds;
     return this;
@@ -61,12 +71,51 @@ import javax.validation.constraints.*;
   @JsonProperty("seconds")
   @Schema(required = true, description = "")
   @NotNull
- @Min(150)  public Integer getSeconds() {
+  @Min(150)  public Integer getSeconds() {
     return seconds;
   }
 
   public void setSeconds(Integer seconds) {
     this.seconds = seconds;
+  }
+
+  public ResultRequest resultDate(Date resultDate) {
+      this.resultDate = resultDate;
+      return this;
+  }
+
+  /**
+   * Get resultDate
+   * @return resultDate
+   **/
+  @JsonProperty("resultDate")
+  @Schema(format = "date", description = "")
+  @NotNull
+  public Date getResultDate() {
+      return resultDate;
+  }
+
+  public void setResultDate(Date resultDate) {
+      this.resultDate = resultDate;
+  }
+
+  public ResultRequest resultDateTime(Date resultDateTime) {
+      this.resultDateTime = resultDateTime;
+      return this;
+  }
+
+  /**
+   * Get resultDateTime
+   * @return resultDateTime
+   **/
+  @JsonProperty("resultDateTime")
+  @Schema(format = "date-time", description = "")
+  public Date getResultDateTime() {
+      return resultDateTime;
+  }
+
+  public void setResultDateTime(Date resultDateTime) {
+      this.resultDateTime = resultDateTime;
   }
 
 
@@ -80,12 +129,14 @@ import javax.validation.constraints.*;
     }
     ResultRequest resultRequest = (ResultRequest) o;
     return Objects.equals(this.userId, resultRequest.userId) &&
-        Objects.equals(this.seconds, resultRequest.seconds);
+        Objects.equals(this.seconds, resultRequest.seconds) &&
+        Objects.equals(this.resultDate, resultRequest.resultDate) &&
+        Objects.equals(this.resultDateTime, resultRequest.resultDateTime);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(userId, seconds);
+    return Objects.hash(userId, seconds, resultDate, resultDateTime);
   }
 
 
@@ -96,6 +147,8 @@ import javax.validation.constraints.*;
     
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("    seconds: ").append(toIndentedString(seconds)).append("\n");
+    sb.append("    seconds: ").append(toIndentedString(resultDate)).append("\n");
+    sb.append("    seconds: ").append(toIndentedString(resultDateTime)).append("\n");
     sb.append("}");
     return sb.toString();
   }

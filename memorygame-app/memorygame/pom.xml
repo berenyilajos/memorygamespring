@@ -41,6 +41,10 @@
 			<artifactId>swagger-request-validator-core</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.atlassian.oai</groupId>
 			<artifactId>swagger-request-validator-springmvc</artifactId>
 		</dependency>

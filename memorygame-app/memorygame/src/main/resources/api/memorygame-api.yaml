@@ -62,11 +62,19 @@ components:
           minimum: 30
           maximum: 180
           format: int32
+        resultDate:
+          type: string
+          format: date
+        resultDateTime:
+          type: string
+          nullable: true
+          format: date-time
     ResultResponse:
       required:
         - success
         - seconds
         - userId
+        - resultDate
       properties:
         success:
           $ref: "#/components/schemas/SuccessType"
@@ -79,3 +87,10 @@ components:
         userId:
           type: integer
           format: int64
+        resultDate:
+          type: string
+          format: date
+        resultDateTime:
+          type: string
+          nullable: true
+          format: date-time
