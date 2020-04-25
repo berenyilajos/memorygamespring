@@ -20,6 +20,9 @@ public class UserRestController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private ResourceReader resourceReader;
+
 	@RequestMapping(value = "/users", method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public UsersDTO findAll() throws MyApplicationException {
@@ -34,8 +37,8 @@ public class UserRestController {
 	@RequestMapping(value = "/api-docs", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> swaggerUiPage() throws MyApplicationException {
 		log.debug("UserController.swaggerUiPage >>>");
-		String yaml = ResourceReader.readFileToString("api/memorygame-api.yaml");
-		String json = ResourceReader.convertYamlToJson(yaml);
+		String yaml = resourceReader.readFileToString("api/memorygame-api.yaml");
+		String json = resourceReader.convertYamlToJson(yaml);
 		log.debug("<<< UserController.swaggerUiPage");
 		return ResponseEntity.ok(json);
 	}
