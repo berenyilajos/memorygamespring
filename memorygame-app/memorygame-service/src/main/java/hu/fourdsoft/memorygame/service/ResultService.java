@@ -36,6 +36,11 @@ public class ResultService {
 				.resultsToDTO(resultRepository.findAllByOrderBySecondsAscResultDateDescUserNameAscJoinFetchUser(pageable));
 	}
 
+	public List<ResultDTO> getResultsBetterOrEquals(long seconds) {
+    	return DtoHelper
+				.resultsToDTO(resultRepository.getResultsBetterOrEquals(seconds));
+	}
+
 	@MemorygameTransactional
 	public void saveResult(int seconds, UserDTO userDto) {
 		User user = DtoHelper.toEntity(userDto);
