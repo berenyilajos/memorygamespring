@@ -3,6 +3,7 @@ package hu.fourdsoft.memorygame.controller.rest;
 import hu.fourdsoft.memorygame.common.api.dto.ResultRequest;
 import hu.fourdsoft.memorygame.common.api.dto.ResultResponse;
 import hu.fourdsoft.memorygame.common.api.dto.SuccessType;
+import hu.fourdsoft.memorygame.common.dto.ResultDTO;
 import hu.fourdsoft.memorygame.common.dto.UserDTO;
 import hu.fourdsoft.memorygame.data.service.ResultDataService;
 import hu.fourdsoft.memorygame.validator.XSDValidator;
@@ -14,6 +15,9 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,10 +26,10 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.List;
 
 @RestController
-@RequestMapping(value = "/game/result", method = RequestMethod.POST,
-		consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping("/game/result")
 @Slf4j
 public class ResultRestController implements XSDValidator {
 
@@ -43,7 +47,7 @@ public class ResultRestController implements XSDValidator {
 	@Autowired
 	ResourceLoader resourceLoader;
 
-	@RequestMapping("/save")
+	@PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ResultResponse> saveAction(HttpServletRequest request, @RequestBody ResultRequest resultRequest) /*throws MyApplicationException*/ {
 
 		log.debug("ResultRestController.saveAction >>>");
@@ -76,6 +80,11 @@ public class ResultRestController implements XSDValidator {
 		//validateByXSD(resultResponse, XSD_POJO);
 		log.debug("<<< ResultRestController.saveAction");
 		return ResponseEntity.ok(resultResponse);
+	}
+
+	@GetMapping(value = "/betterorequals/{seconds:\\d+}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<ResultDTO> getResultsBetterOrEquals(@PathVariable("seconds") long seconds) {
+		return resultService.getResultsBetterOrEquals(seconds);
 	}
 
 

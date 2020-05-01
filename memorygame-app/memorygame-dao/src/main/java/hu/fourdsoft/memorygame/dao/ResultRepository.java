@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface ResultRepository extends JpaRepository<Result, Long> {
+public interface ResultRepository extends JpaRepository<Result, Long>, ResultRepositoryDao {
 
 	List<Result> findByUserOrderBySecondsAsc(User user, Pageable pageable);
 

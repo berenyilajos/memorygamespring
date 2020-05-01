@@ -12,7 +12,6 @@ import hu.fourdsoft.memorygame.data.dao.ResultDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-//import org.springframework.transaction.annotation.Transactional;
 
 import javax.transaction.Transactional;
 import java.util.Date;
@@ -36,6 +35,11 @@ public class ResultService {
 
 	public List<ResultDTO> getAllResults() {
     	return DtoHelper.resultsToDTO(resultRepository.findAllByOrderBySecondsAscResultDateDesc(PageRequest.of(0, 30)));
+	}
+
+	public List<ResultDTO> getResultsBetterOrEquals(long seconds) {
+    	return DtoHelper
+				.resultsToDTO(resultRepository.getResultsBetterOrEquals(seconds));
 	}
 
 	@Transactional

@@ -44,6 +44,10 @@ public class UserService {
 		userRepository.saveAndFlush(user);
 	}
 
+	public UserDTO getUserByName(String name) {
+    	return DtoHelper.toDTO(userRepository.getUserByName(name));
+	}
+
 	private static String getMD5(String rawPass) {
 		MessageDigest md = null;
 		try {

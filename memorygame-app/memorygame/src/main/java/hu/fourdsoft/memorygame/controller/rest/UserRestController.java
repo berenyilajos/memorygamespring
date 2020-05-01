@@ -1,5 +1,6 @@
 package hu.fourdsoft.memorygame.controller.rest;
 
+import hu.fourdsoft.memorygame.common.dto.UserDTO;
 import hu.fourdsoft.memorygame.common.dto.UsersDTO;
 import hu.fourdsoft.memorygame.exception.MyApplicationException;
 import hu.fourdsoft.memorygame.service.UserService;
@@ -7,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Random;
 
 @RestController
-@RequestMapping("/game")
+@RequestMapping(value = "/game", produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 public class UserRestController {
 	@Autowired
@@ -41,6 +44,11 @@ public class UserRestController {
 		String json = resourceReader.convertYamlToJson(yaml);
 		log.debug("<<< UserController.swaggerUiPage");
 		return ResponseEntity.ok(json);
+	}
+
+	@GetMapping(value = "/users/{name}")
+	public UserDTO getUserByName(@PathVariable("name") String name) {
+		return userService.getUserByName(name);
 	}
 
 }
