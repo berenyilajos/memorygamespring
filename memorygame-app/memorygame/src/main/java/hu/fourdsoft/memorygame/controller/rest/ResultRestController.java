@@ -6,6 +6,7 @@ import hu.fourdsoft.memorygame.common.api.dto.SuccessType;
 import hu.fourdsoft.memorygame.common.dto.ResultDTO;
 import hu.fourdsoft.memorygame.common.dto.UserDTO;
 import hu.fourdsoft.memorygame.data.service.ResultDataService;
+import hu.fourdsoft.memorygame.jwt.JwtSecure;
 import hu.fourdsoft.memorygame.validator.XSDValidator;
 import hu.fourdsoft.memorygame.service.ResultService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,10 +21,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
@@ -48,7 +47,8 @@ public class ResultRestController implements XSDValidator {
 	ResourceLoader resourceLoader;
 
 	@PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ResultResponse> saveAction(HttpServletRequest request, @RequestBody ResultRequest resultRequest) /*throws MyApplicationException*/ {
+	@JwtSecure
+	public ResponseEntity<ResultResponse> saveAction(HttpSession session, @RequestBody ResultRequest resultRequest) /*throws MyApplicationException*/ {
 
 		log.debug("ResultRestController.saveAction >>>");
 //		try {
@@ -62,9 +62,8 @@ public class ResultRestController implements XSDValidator {
 		int seconds = resultRequest.getSeconds();
 		long userId = resultRequest.getUserId();
 		resultResponse.setSeconds(seconds);
-		HttpSession session = request.getSession(false);
-		UserDTO user;
-		if (session == null || (user = (UserDTO)session.getAttribute("user")) == null || user.getId() != userId) {
+		UserDTO user = (UserDTO)session.getAttribute("user");
+		if (user.getId() != userId) {
 			resultResponse.setSuccess(SuccessType.ERROR);
 			resultResponse.setMessage("User is not logged in!");
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(resultResponse);
@@ -83,6 +82,7 @@ public class ResultRestController implements XSDValidator {
 	}
 
 	@GetMapping(value = "/betterorequals/{seconds:\\d+}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@JwtSecure
 	public List<ResultDTO> getResultsBetterOrEquals(@PathVariable("seconds") long seconds) {
 		return resultService.getResultsBetterOrEquals(seconds);
 	}

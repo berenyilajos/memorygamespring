@@ -2,6 +2,7 @@ package hu.fourdsoft.memorygame.controller;
 
 import hu.fourdsoft.memorygame.common.dto.UserDTO;
 import hu.fourdsoft.memorygame.exception.UserAllreadyExistException;
+import hu.fourdsoft.memorygame.jwt.JwtUtil;
 import hu.fourdsoft.memorygame.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -26,6 +27,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private JwtUtil jwtUtil;
 
 	@RequestMapping(produces = MediaType.TEXT_HTML_VALUE)
 	public ModelAndView indexPage(HttpServletRequest request) throws IOException, ServletException {
@@ -60,6 +64,7 @@ public class UserController {
 			} else {
 				HttpSession session = request.getSession(true);
 				session.setAttribute("user", user);
+				session.setAttribute(JwtUtil.AUTHORIZATION, JwtUtil.BEARER + jwtUtil.generateToken(user.getUsername()));
 				return new ModelAndView("redirect:/game");
 			}
 		}
@@ -76,6 +81,7 @@ public class UserController {
 		log.debug("UserController.logoutAction, username=[{}] >>>", session != null ? (UserDTO)session.getAttribute("user") : null);
 		if (session != null) {
 			session.setAttribute("user", null);
+			session.setAttribute(JwtUtil.AUTHORIZATION, null);
 			session = null;
 		}
 		log.debug("<<< UserController.logoutAction");
