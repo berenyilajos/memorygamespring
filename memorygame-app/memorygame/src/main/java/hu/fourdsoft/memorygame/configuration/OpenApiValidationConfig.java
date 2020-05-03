@@ -3,6 +3,7 @@ package hu.fourdsoft.memorygame.configuration;
 import com.atlassian.oai.validator.OpenApiInteractionValidator;
 import com.atlassian.oai.validator.springmvc.OpenApiValidationFilter;
 import com.atlassian.oai.validator.springmvc.OpenApiValidationInterceptor;
+import hu.fourdsoft.memorygame.jwt.JwtFilterHandlerInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,9 @@ import java.io.IOException;
 public class OpenApiValidationConfig implements WebMvcConfigurer {
 
     private final OpenApiValidationInterceptor validationInterceptor;
+
+    @Autowired
+    private JwtFilterHandlerInterceptor jwtFilterHandlerInterceptor;
 
     @Autowired
     public OpenApiValidationConfig() throws IOException {
@@ -38,5 +42,6 @@ public class OpenApiValidationConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(validationInterceptor);
+        registry.addInterceptor(jwtFilterHandlerInterceptor);
     }
 }

@@ -25,6 +25,11 @@
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.9.1</version>
+		</dependency>
+		<dependency>
 			<groupId>org.jvnet.ws.wadl</groupId>
 			<artifactId>wadl-client-plugin</artifactId>
 		</dependency>

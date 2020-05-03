@@ -3,9 +3,11 @@ package hu.fourdsoft.memorygame.controller.rest;
 import hu.fourdsoft.memorygame.common.dto.UserDTO;
 import hu.fourdsoft.memorygame.common.dto.UsersDTO;
 import hu.fourdsoft.memorygame.exception.MyApplicationException;
+import hu.fourdsoft.memorygame.jwt.JwtSecure;
 import hu.fourdsoft.memorygame.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.util.Random;
 
 @RestController
@@ -47,8 +50,14 @@ public class UserRestController {
 	}
 
 	@GetMapping(value = "/users/{name}")
-	public UserDTO getUserByName(@PathVariable("name") String name) {
-		return userService.getUserByName(name);
+	@JwtSecure
+	public ResponseEntity getUserByName(HttpSession session, @PathVariable("name") String name) {
+		UserDTO user = (UserDTO)session.getAttribute("user");
+		if (!user.getUsername().equals(name)) {
+			log.debug("Username: " + user.getUsername() + " and name: " + name + " is not equal!");
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+		return ResponseEntity.ok(userService.getUserByName(name));
 	}
 
 }
