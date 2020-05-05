@@ -52,6 +52,8 @@
 			<xs:sequence>
 				<xs:element name="userId" type="xs:long" minOccurs="1" />
 				<xs:element name="seconds" type="common:IntType" />
+				<xs:element name="resultDate" type="xs:date" minOccurs="0" />
+				<xs:element name="resultDateTime" type="xs:dateTime" minOccurs="0" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
