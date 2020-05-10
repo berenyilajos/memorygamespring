@@ -118,9 +118,9 @@ public class ResultServiceTest {
 
     @Test
     public void saveResultFailed3() throws Exception {
-        String message = "Exception message";
+        String message = "Exception resultData save message";
         Exception ex = new RuntimeException(message);
-        doThrow(ex).when(resultRepository).save(any(Result.class));
+        doThrow(ex).when(resultDataRepository).save(any(ResultData.class));
         assertEquals(assertThrows(RuntimeException.class, () -> underTest.saveResult(seconds, testUserDTO)).getMessage(),
                 message);
     }
