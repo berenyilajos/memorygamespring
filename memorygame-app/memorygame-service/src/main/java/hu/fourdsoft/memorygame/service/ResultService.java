@@ -34,7 +34,7 @@ public class ResultService {
 	}
 
 	public List<ResultDTO> getAllResults() {
-    	return DtoHelper.resultsToDTO(resultRepository.findAllByOrderBySecondsAscResultDateDesc(PageRequest.of(0, 30)));
+    	return DtoHelper.resultsToDTO(resultRepository.findAllByOrderBySecondsAscResultDateDescUserNameAscJoinFetchUser(PageRequest.of(0, 30)));
 	}
 
 	public List<ResultDTO> getResultsBetterOrEquals(long seconds) {

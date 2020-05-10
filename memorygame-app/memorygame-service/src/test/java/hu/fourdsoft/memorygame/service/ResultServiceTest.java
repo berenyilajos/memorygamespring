@@ -1,11 +1,13 @@
 package hu.fourdsoft.memorygame.service;
 
+import hu.fourdsoft.memorygame.common.data.model.ResultData;
 import hu.fourdsoft.memorygame.common.dto.ResultDTO;
 import hu.fourdsoft.memorygame.common.dto.UserDTO;
 import hu.fourdsoft.memorygame.common.dto.helper.DtoHelper;
 import hu.fourdsoft.memorygame.common.model.Result;
 import hu.fourdsoft.memorygame.common.model.User;
 import hu.fourdsoft.memorygame.dao.ResultRepository;
+import hu.fourdsoft.memorygame.data.dao.ResultDataRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,6 +32,9 @@ public class ResultServiceTest {
 
     @Mock
     private ResultRepository resultRepository;
+
+    @Mock
+    private ResultDataRepository resultDataRepository;
 
     private Result testResult;
 
@@ -90,12 +95,13 @@ public class ResultServiceTest {
     @Test
     public void saveResult() {
         underTest.saveResult(seconds, testUserDTO);
-        verify(resultRepository, times(1)).saveAndFlush(any(Result.class));
+        verify(resultRepository, times(1)).save(any(Result.class));
+        verify(resultDataRepository, times(1)).save(any(ResultData.class));
     }
 
     @Test(expected = Exception.class)
     public void saveResultFailed() throws Exception {
-        doThrow(Exception.class).when(resultRepository).saveAndFlush(any(Result.class));
+        doThrow(Exception.class).when(resultRepository).save(any(Result.class));
         underTest.saveResult(seconds, testUserDTO);
         fail("Should not be called!");
     }
@@ -104,7 +110,7 @@ public class ResultServiceTest {
     public void saveResultFailed2() throws Exception {
         String message = "Exception message";
         Exception ex = new RuntimeException(message);
-        doThrow(ex).when(resultRepository).saveAndFlush(any(Result.class));
+        doThrow(ex).when(resultRepository).save(any(Result.class));
         Assertions.assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(() ->  underTest.saveResult(seconds, testUserDTO))
                 .withMessage(message);
@@ -114,7 +120,7 @@ public class ResultServiceTest {
     public void saveResultFailed3() throws Exception {
         String message = "Exception message";
         Exception ex = new RuntimeException(message);
-        doThrow(ex).when(resultRepository).saveAndFlush(any(Result.class));
+        doThrow(ex).when(resultRepository).save(any(Result.class));
         assertEquals(assertThrows(RuntimeException.class, () -> underTest.saveResult(seconds, testUserDTO)).getMessage(),
                 message);
     }
