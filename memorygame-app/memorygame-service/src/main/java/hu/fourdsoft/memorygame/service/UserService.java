@@ -6,6 +6,7 @@ import hu.fourdsoft.memorygame.common.model.User;
 import hu.fourdsoft.memorygame.dao.UserRepository;
 import hu.fourdsoft.memorygame.exception.UserAllreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+	private PasswordEncoder passwordEncoder;
+
 	@Transactional
     public List<UserDTO> findAll() {
         return DtoHelper.usersToDTO(userRepository.findAll());
@@ -28,7 +32,8 @@ public class UserService {
 
 	@Transactional
 	public UserDTO getUserByUsernameAndPassword(String username, String password) {
-    	return DtoHelper.toDTOWithoutResults(userRepository.findOneByUsernameAndPassword(username, getMD5(password)));
+    	// return DtoHelper.toDTOWithoutResults(userRepository.findOneByUsernameAndPassword(username, getMD5(password)));
+    	return DtoHelper.toDTOWithoutResults(userRepository.findOneByUsernameAndPassword(username, passwordEncoder.encode(password)));
 	}
 
 	@Transactional
@@ -40,7 +45,8 @@ public class UserService {
 		User user = new User();
 		user.setUsername(username);
 		user.setEmail(username + "@example.com");
-		user.setPassword(getMD5(password));
+		// user.setPassword(getMD5(password));
+		user.setPassword(passwordEncoder.encode(password));
 		userRepository.saveAndFlush(user);
 	}
 
