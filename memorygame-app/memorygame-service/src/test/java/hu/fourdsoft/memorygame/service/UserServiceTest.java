@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Optional;
@@ -25,6 +26,8 @@ public class UserServiceTest {
 
 	@Mock
 	private UserRepository userRepository;
+	@Mock
+	private PasswordEncoder passwordEncoder;
 	private static final String existingUserName = "existingUserName";
 	private static final String existingUserEmail = existingUserName + "@example.com";
 	private static final String password = "password";

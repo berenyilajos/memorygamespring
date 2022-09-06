@@ -224,7 +224,7 @@
             	var url = "/memorygame/game/result/save";
             	var obj = new Object();
             	obj.seconds = seconds;
-            	obj.userId = /*[[${session.user.id}]]*/ '';
+            	obj.userId = /*[[${#request.userPrincipal.principal.id}]]*/ '';
             	var params = JSON.stringify(obj);
             	http.open("POST", url, true);
 
