@@ -12,8 +12,8 @@
     <packaging>pom</packaging>
 
     <properties>
-        <swagger-request-validator.version>2.9.0</swagger-request-validator.version>
-        <springdoc-openapi.version>1.2.32</springdoc-openapi.version>
+        <swagger-request-validator.version>2.30.0</swagger-request-validator.version>
+        <springdoc-openapi.version>1.6.11</springdoc-openapi.version>
     </properties>
 
     <dependencyManagement>

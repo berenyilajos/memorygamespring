@@ -1,11 +1,9 @@
 package hu.fourdsoft.memorygame;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -17,8 +15,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-@EntityScan(basePackages = "hu.fourdsoft.memorygame.common.model")
-@EnableJpaRepositories(basePackages = "hu.fourdsoft.memorygame.dao")
 @ComponentScan(basePackages = "hu.fourdsoft.memorygame")
 @Configuration
 @EnableWebSecurity
