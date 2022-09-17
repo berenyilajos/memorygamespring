@@ -48,7 +48,7 @@ public class ResultRestController implements XSDValidator {
 	ResourceLoader resourceLoader;
 
 	@PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	@JwtSecure
+	@JwtSecure(role = "ROLE_USER")
 	public ResponseEntity<ResultResponse> saveAction(HttpSession session, @RequestBody ResultRequest resultRequest) throws MyApplicationException {
 
 		log.debug("ResultRestController.saveAction >>>");

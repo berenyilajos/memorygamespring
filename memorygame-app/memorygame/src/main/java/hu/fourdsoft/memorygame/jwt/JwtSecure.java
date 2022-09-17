@@ -14,4 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface JwtSecure {
+
+	String role() default "ROLE_ADMIN";
+
 }

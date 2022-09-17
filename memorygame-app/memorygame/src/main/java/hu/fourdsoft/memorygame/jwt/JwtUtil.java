@@ -13,7 +13,7 @@ import java.util.function.Function;
 @Service
 public class JwtUtil {
 
-    private static final String SECRET_KEY = "secret";
+    private static final String SECRET_KEY = "topsecret";
     public static final String AUTHORIZATION = "Authorization";
     public static final String BEARER = "Bearer ";
 

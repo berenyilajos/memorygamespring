@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,14 +34,17 @@ public class UserController {
 	private JwtUtil jwtUtil;
 
 	@RequestMapping(produces = MediaType.TEXT_HTML_VALUE)
-	public ModelAndView indexPage(HttpServletRequest request) throws IOException, ServletException {
+	public ModelAndView indexPage(@AuthenticationPrincipal UserDetails user, HttpServletRequest request) throws IOException, ServletException {
 		log.debug("UserController.indexPage >>>");
 //		HttpSession session = request.getSession(false);
 //		if (session == null || session.getAttribute("user") == null) {
 //			return new ModelAndView("redirect:/game/login");
 //		}
+		String token = jwtUtil.generateToken(user.getUsername());
+		ModelAndView view = new ModelAndView("index");
+		view.addObject("token", token);
 		log.debug("<<< UserController.indexPage");
-		return new ModelAndView("index");
+		return view;
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
