@@ -7,6 +7,7 @@ import hu.fourdsoft.memorygame.common.model.Result;
 import hu.fourdsoft.memorygame.common.model.User;
 import hu.fourdsoft.memorygame.dao.ResultRepository;
 import hu.fourdsoft.memorygame.dao.UserRepository;
+import hu.fourdsoft.memorygame.exception.MyApplicationException;
 import hu.fourdsoft.memorygame.transactions.MemorygameTransactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,19 @@ public class ResultService {
 	@MemorygameTransactional
 	public void saveResult(int seconds, UserDTO userDto) {
 		User user = DtoHelper.toEntity(userDto);
+		Result result = new Result();
+		result.setSeconds(seconds);
+		result.setUser(user);
+		result.setResultDate(new Date());
+		resultRepository.saveAndFlush(result);
+	}
+
+	@MemorygameTransactional
+	public void saveResult(int seconds, long userId) throws MyApplicationException {
+		User user = userRepository.getOne(userId);
+		if (user == null) {
+		    throw new MyApplicationException("User not found with id: " + userId);
+		}
 		Result result = new Result();
 		result.setSeconds(seconds);
 		result.setUser(user);

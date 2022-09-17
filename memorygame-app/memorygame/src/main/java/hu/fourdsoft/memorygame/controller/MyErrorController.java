@@ -34,6 +34,9 @@ public class MyErrorController implements ErrorController {
 			else if (statusCode == HttpStatus.FORBIDDEN.value()) {
 				return "error-403";
 			}
+			else if (statusCode == HttpStatus.UNAUTHORIZED.value()) {
+				return "error-401";
+			}
 		}
 		return "error";
 	}

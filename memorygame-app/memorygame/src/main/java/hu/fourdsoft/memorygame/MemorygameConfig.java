@@ -50,10 +50,13 @@ public class MemorygameConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
        http.csrf().disable()
             .authorizeRequests()
+            .antMatchers("/css/**").permitAll()
             .antMatchers("/game/login**").permitAll()
             .antMatchers("/game/register**").permitAll()
             .antMatchers("/**").authenticated().and()
-            .formLogin().loginProcessingUrl("/game/login").loginPage("login");
+            .exceptionHandling().accessDeniedPage("/accessdenied").and()
+            .formLogin().loginProcessingUrl("/game/login").loginPage("/game/login")
+            .defaultSuccessUrl("/game", true);
         http.authenticationProvider(authenticationProvider());
 
         return http.build();

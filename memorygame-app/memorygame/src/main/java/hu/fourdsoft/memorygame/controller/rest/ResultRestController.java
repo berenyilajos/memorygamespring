@@ -63,13 +63,14 @@ public class ResultRestController implements XSDValidator {
 		int seconds = resultRequest.getSeconds();
 		long userId = resultRequest.getUserId();
 		resultResponse.setSeconds(seconds);
-		UserDTO user = (UserDTO)session.getAttribute("user");
+		/*UserDTO user = (UserDTO)session.getAttribute("user");
 		if (user.getId() != userId) {
 			resultResponse.setSuccess(SuccessType.ERROR);
 			resultResponse.setMessage("User is not logged in!");
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(resultResponse);
 		}
-		resultService.saveResult(seconds, user);
+		resultService.saveResult(seconds, user);*/
+		resultService.saveResult(seconds, userId);
 		resultDataService.saveResultData(seconds, userId);
 		log.info("ResultDats: " + resultDataService.getResultDatas());
 		resultResponse.setSuccess(SuccessType.SUCCESS);
