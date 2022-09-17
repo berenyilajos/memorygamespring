@@ -13,10 +13,10 @@ public class MyErrorController implements ErrorController {
 
 	private static final String ERROR_PATH = "/error";
 
-	@Override
+	/* @Override
 	public String getErrorPath() {
 		return ERROR_PATH;
-	}
+	} */
 
 	@RequestMapping(value = ERROR_PATH)
 	public String handleError(HttpServletRequest request) {
@@ -30,6 +30,9 @@ public class MyErrorController implements ErrorController {
 			}
 			else if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
 				return "error-500";
+			}
+			else if (statusCode == HttpStatus.FORBIDDEN.value()) {
+				return "error-403";
 			}
 		}
 		return "error";

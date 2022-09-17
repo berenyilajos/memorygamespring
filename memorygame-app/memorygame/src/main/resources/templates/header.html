@@ -2,9 +2,9 @@
         <ul th:fragment="loggedin">
             <li><a th:classappend="${currentPage == 'game'} ? 'active'" th:href="@{/game}">Game</a></li>
             <li><a th:classappend="${currentPage == 'results'} ? 'active'" th:href="@{/game/result}">Results</a></li>
-            <li><a th:classappend="${currentPage == 'userresults'} ? 'active'" th:href="@{'/game/result/' + ${session.user.id}}">My results</a></li>
-            <li class="right" ><a th:href="@{/game/logout}">Logout</a></li>
-            <li class="right" ><span th:text="${session.user.username}"></span></li>
+            <li><a th:classappend="${currentPage == 'userresults'} ? 'active'" th:href="@{'/game/result/' + ${#request.userPrincipal.principal.id}}">My results</a></li>
+            <li class="right" ><a th:href="@{/logout}">Logout</a></li>
+            <li class="right" ><span th:text="${#request.userPrincipal.principal.username}"></span></li>
         </ul>
 
         <ul th:fragment="notloggedin">

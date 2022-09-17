@@ -8,6 +8,7 @@ import hu.fourdsoft.memorygame.exception.UserAllreadyExistException;
 import hu.fourdsoft.memorygame.transactions.MemorygameTransactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.DatatypeConverter;
@@ -22,12 +23,16 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+	private PasswordEncoder passwordEncoder;
+
     public List<UserDTO> findAll() {
         return DtoHelper.usersToDTO(userRepository.findAll());
     }
 
 	public UserDTO getUserByUsernameAndPassword(String username, String password) {
-    	return DtoHelper.toDTOWithoutResults(userRepository.findOneByUsernameAndPassword(username, getMD5(password)));
+    	// return DtoHelper.toDTOWithoutResults(userRepository.findOneByUsernameAndPassword(username, getMD5(password)));
+    	return DtoHelper.toDTOWithoutResults(userRepository.findOneByUsernameAndPassword(username, passwordEncoder.encode(password)));
 	}
 
 	@MemorygameTransactional
@@ -39,7 +44,8 @@ public class UserService {
 		User user = new User();
 		user.setUsername(username);
 		user.setEmail(username + "@example.com");
-		user.setPassword(getMD5(password));
+		// user.setPassword(getMD5(password));
+		user.setPassword(passwordEncoder.encode(password));
 		userRepository.saveAndFlush(user);
 	}
 

@@ -2,6 +2,7 @@ package hu.fourdsoft.memorygame.controller;
 
 import hu.fourdsoft.memorygame.common.dto.ResultDTO;
 import hu.fourdsoft.memorygame.common.dto.UserDTO;
+import hu.fourdsoft.memorygame.common.model.User;
 import hu.fourdsoft.memorygame.service.ResultService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,10 @@ public class ResultController {
 	public ModelAndView listAction(HttpServletRequest request) throws ServletException, IOException {
 
 		log.debug("ResultController.listAction >>>");
-		HttpSession session = request.getSession(false);
-		if (session == null || session.getAttribute("user") == null) {
-			return new ModelAndView("redirect:/game/login");
-		}
+//		HttpSession session = request.getSession(false);
+//		if (session == null || session.getAttribute("user") == null) {
+//			return new ModelAndView("redirect:/game/login");
+//		}
 		List<ResultDTO> list = resultService.getAllResults();
 
 		ModelAndView view = new ModelAndView("result/results");
@@ -48,11 +49,11 @@ public class ResultController {
 			throws ServletException, IOException {
 		log.debug("ResultController.showAction, userId=[{}] >>>", userId);
 		HttpSession session = request.getSession(false);
-		UserDTO user;
-		if (session == null || (user = (UserDTO) session.getAttribute("user")) == null || user.getId() != Long.parseLong(userId)) {
-			return new ModelAndView("redirect:/game/login");
-		}
-		List<ResultDTO> list = resultService.getResultsByUser(user);
+//		UserDTO user;
+//		if (session == null || (user = (UserDTO) session.getAttribute("user")) == null || user.getId() != Long.parseLong(userId)) {
+//			return new ModelAndView("redirect:/game/login");
+//		}
+		List<ResultDTO> list = resultService.getResultsByUser(Long.parseLong(userId));
 		ModelAndView view = new ModelAndView("result/userresults");
 
 		view.addObject("list", list);

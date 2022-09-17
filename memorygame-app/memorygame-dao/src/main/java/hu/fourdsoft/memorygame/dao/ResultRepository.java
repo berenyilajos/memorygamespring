@@ -5,12 +5,16 @@ import hu.fourdsoft.memorygame.common.model.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
 public interface ResultRepository extends JpaRepository<Result, Long>, ResultRepositoryDao {
 
 	List<Result> findByUserOrderBySecondsAsc(User user, Pageable pageable);
+
+	@Query(value = "SELECT r FROM Result r JOIN FETCH r.user u WHERE u.id = :userId ORDER BY r.seconds ASC")
+	List<Result> findByUserIdOrderBySecondsAsc(@Param("userId") long userId, Pageable pageable);
 
 	List<Result> findAllByOrderBySecondsAscResultDateDesc(Pageable pageable);
 

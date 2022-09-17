@@ -6,6 +6,7 @@ import hu.fourdsoft.memorygame.common.dto.helper.DtoHelper;
 import hu.fourdsoft.memorygame.common.model.Result;
 import hu.fourdsoft.memorygame.common.model.User;
 import hu.fourdsoft.memorygame.dao.ResultRepository;
+import hu.fourdsoft.memorygame.dao.UserRepository;
 import hu.fourdsoft.memorygame.transactions.MemorygameTransactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +22,19 @@ public class ResultService {
     @Autowired
     private ResultRepository resultRepository;
 
+    @Autowired
+	private UserRepository userRepository;
+
     public List<ResultDTO> findAll() {
         return DtoHelper.resultsToDTO(resultRepository.findAll());
     }
 
 	public List<ResultDTO> getResultsByUser(UserDTO user) {
     	return DtoHelper.resultsToDTO(resultRepository.findByUserOrderBySecondsAsc(DtoHelper.toEntity(user), PageRequest.of(0, 20)));
+	}
+
+	public List<ResultDTO> getResultsByUser(long userId) {
+		return DtoHelper.resultsToDTO(resultRepository.findByUserIdOrderBySecondsAsc(userId, PageRequest.of(0, 20)));
 	}
 
 	public List<ResultDTO> getAllResults() {

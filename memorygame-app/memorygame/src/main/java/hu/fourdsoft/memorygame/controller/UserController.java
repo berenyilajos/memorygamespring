@@ -34,10 +34,10 @@ public class UserController {
 	@RequestMapping(produces = MediaType.TEXT_HTML_VALUE)
 	public ModelAndView indexPage(HttpServletRequest request) throws IOException, ServletException {
 		log.debug("UserController.indexPage >>>");
-		HttpSession session = request.getSession(false);
-		if (session == null || session.getAttribute("user") == null) {
-			return new ModelAndView("redirect:/game/login");
-		}
+//		HttpSession session = request.getSession(false);
+//		if (session == null || session.getAttribute("user") == null) {
+//			return new ModelAndView("redirect:/game/login");
+//		}
 		log.debug("<<< UserController.indexPage");
 		return new ModelAndView("index");
 	}
@@ -46,47 +46,50 @@ public class UserController {
 	public ModelAndView loginPage(HttpServletRequest request) throws ServletException, IOException {
 		log.debug("UserController.loginPage >>>");
 		String msg = "";
+		if (request.getParameterMap().containsKey("error")) {
+			msg = "Hibás felhasználónév vagy jelszó!!!!!!";
+		}
 		log.debug("<<< UserController.loginPage");
 		ModelAndView view = new ModelAndView("login");
 		view.addObject("msg", msg);
 		return view;
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.TEXT_HTML_VALUE)
-	public ModelAndView login(HttpServletRequest request, @RequestParam("username") String username,
-								  @RequestParam("password") String password) throws ServletException, IOException {
-		log.debug("UserController.loginAction, username=[{}] >>>", username);
-		String msg = "";
-		if (StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password)) {
-			UserDTO user = userService.getUserByUsernameAndPassword(username, password);
-			if (user == null) {
-				msg = "Hibás felhasználónév vagy jelszó!";
-			} else {
-				HttpSession session = request.getSession(true);
-				session.setAttribute("user", user);
-				session.setAttribute(JwtUtil.AUTHORIZATION, JwtUtil.BEARER + jwtUtil.generateToken(user.getUsername()));
-				return new ModelAndView("redirect:/game");
-			}
-		}
-		log.debug("<<< UserController.loginAction");
-
-		ModelAndView view = new ModelAndView("login");
-		view.addObject("msg", msg);
-		return view;
-	}
-
-	@RequestMapping(value = "/logout", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		HttpSession session = request.getSession(false);
-		log.debug("UserController.logoutAction, username=[{}] >>>", session != null ? (UserDTO)session.getAttribute("user") : null);
-		if (session != null) {
-			session.setAttribute("user", null);
-			session.setAttribute(JwtUtil.AUTHORIZATION, null);
-			session = null;
-		}
-		log.debug("<<< UserController.logoutAction");
-		return new ModelAndView("redirect:/game/login");
-	}
+//	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.TEXT_HTML_VALUE)
+//	public ModelAndView login(HttpServletRequest request, @RequestParam("username") String username,
+//								  @RequestParam("password") String password) throws ServletException, IOException {
+//		log.debug("UserController.loginAction, username=[{}] >>>", username);
+//		String msg = "";
+//		if (StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password)) {
+//			UserDTO user = userService.getUserByUsernameAndPassword(username, password);
+//			if (user == null) {
+//				msg = "Hibás felhasználónév vagy jelszó!";
+//			} else {
+//				HttpSession session = request.getSession(true);
+//				session.setAttribute("user", user);
+//				session.setAttribute(JwtUtil.AUTHORIZATION, JwtUtil.BEARER + jwtUtil.generateToken(user.getUsername()));
+//				return new ModelAndView("redirect:/game");
+//			}
+//		}
+//		log.debug("<<< UserController.loginAction");
+//
+//		ModelAndView view = new ModelAndView("login");
+//		view.addObject("msg", msg);
+//		return view;
+//	}
+//
+//	@RequestMapping(value = "/logout", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+//	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//		HttpSession session = request.getSession(false);
+//		log.debug("UserController.logoutAction, username=[{}] >>>", session != null ? (UserDTO)session.getAttribute("user") : null);
+//		if (session != null) {
+//			session.setAttribute("user", null);
+//			session.setAttribute(JwtUtil.AUTHORIZATION, null);
+//			session = null;
+//		}
+//		log.debug("<<< UserController.logoutAction");
+//		return new ModelAndView("redirect:/game/login");
+//	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
 	public ModelAndView registerPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
