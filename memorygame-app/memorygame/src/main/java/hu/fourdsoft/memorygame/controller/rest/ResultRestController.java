@@ -7,6 +7,7 @@ import hu.fourdsoft.memorygame.common.dto.ResultDTO;
 import hu.fourdsoft.memorygame.common.dto.UserDTO;
 import hu.fourdsoft.memorygame.data.service.ResultDataService;
 import hu.fourdsoft.memorygame.jwt.JwtSecure;
+import hu.fourdsoft.memorygame.jwt.JwtUtil;
 import hu.fourdsoft.memorygame.validator.XSDValidator;
 import hu.fourdsoft.memorygame.exception.MyApplicationException;
 import hu.fourdsoft.memorygame.service.ResultService;
@@ -48,7 +49,7 @@ public class ResultRestController implements XSDValidator {
 	ResourceLoader resourceLoader;
 
 	@PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	@JwtSecure(role = "ROLE_USER")
+	@JwtSecure(role = JwtUtil.ROLE_USER)
 	public ResponseEntity<ResultResponse> saveAction(HttpSession session, @RequestBody ResultRequest resultRequest) throws MyApplicationException {
 
 		log.debug("ResultRestController.saveAction >>>");
